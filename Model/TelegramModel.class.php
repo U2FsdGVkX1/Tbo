@@ -86,7 +86,7 @@
         }
         public function getMe () {
             $this->ret = $this->callMethod ('getMe', [
-            ]);
+            ], true);
             return $this->ret;
         }
         public function isAdmin ($chat_id, $user_id) {
