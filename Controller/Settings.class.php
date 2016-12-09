@@ -6,7 +6,7 @@
         function init () {
             $systemModel = new SystemModel;
             if ($_COOKIE['password'] != $systemModel->password ()) {
-                header ('Location: index.php/login');
+                header ('Location: ' . APP_URL . '/index.php/login');
                 exit ();
             }
         }
@@ -41,6 +41,20 @@
             /** 返回 */
             if ($ret['ok'] == true) {
                 exit (json_encode (array ('code' => 0)));
+            } else {
+                exit (json_encode (array ('code' => -1, 'msg' => $ret['description'])));
+            }
+        }
+        function getUsername () {
+            /** 初始化 */
+            $telegramModel = new TelegramModel;
+            
+            /** 设置回调 */
+            $ret = $telegramModel->getMe ();
+            
+            /** 返回 */
+            if ($ret['ok'] == true) {
+                exit (json_encode (array ('code' => 0, 'username' => $ret['result']['username'])));
             } else {
                 exit (json_encode (array ('code' => -1, 'msg' => $ret['description'])));
             }

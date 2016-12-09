@@ -6,7 +6,7 @@
         function init () {
             $systemModel = new SystemModel;
             if ($_COOKIE['password'] != $systemModel->password ()) {
-                header ('Location: index.php/login');
+                header ('Location: ' . APP_URL . '/index.php/login');
                 exit ();
             }
         }

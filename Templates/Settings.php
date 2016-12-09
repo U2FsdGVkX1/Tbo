@@ -12,6 +12,9 @@
                     <div class="input-group">
                         <span class="input-group-addon" id="botName">Bot 名称</span>
                         <input id="botName" type="text" class="form-control" aria-describedby="botName" value="<?php echo BOTNAME ?>">
+                        <span class="input-group-btn">
+                            <button id="getUsername" class="btn btn-secondary" type="button">自动获取 Bot 名称</button>
+                        </span>
                     </div>
                     <br>
                     <div class="input-group">
@@ -69,6 +72,29 @@
                         textOld = $(buttonThis).text();
                         if(data.code == '0'){
                             $(buttonThis).text("已 Reset Webhook");
+                        }else{
+                            $(buttonThis).text("失败：" + data.msg);
+                        }
+                        setTimeout(function(){
+                            $(buttonThis).text(textOld);
+                            $(buttonThis).removeAttr("disabled");
+                        }, 2000);
+                    },
+                    dataType: "json"
+                });
+            });
+            $("button#getUsername").click(function(){
+                buttonThis = $(this);
+                $(buttonThis).attr("disabled", "disabled");
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo APP_URL ?>/index.php/settings/getUsername",
+                    data: {
+                    },
+                    success: function(data, textStatus, jqXHR){
+                        textOld = $(buttonThis).text();
+                        if(data.code == '0'){
+                            $("input#botName").val(data.username);
                         }else{
                             $(buttonThis).text("失败：" + data.msg);
                         }

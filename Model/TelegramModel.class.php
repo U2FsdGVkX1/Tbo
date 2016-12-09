@@ -84,6 +84,11 @@
             ]);
             return $this->ret['result'];
         }
+        public function getMe () {
+            $this->ret = $this->callMethod ('getMe', [
+            ]);
+            return $this->ret;
+        }
         public function isAdmin ($chat_id, $user_id) {
             $ret = false;
             $adminList = $this->getChatAdmin ($chat_id);
