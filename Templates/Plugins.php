@@ -3,6 +3,11 @@
     <head>
         <title>设置</title>
         <?php require_once 'Header.php' ?>
+        <style>
+            .lastError {
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <?php require_once 'Sidebar.php' ?>
@@ -16,6 +21,14 @@
                             $pluginEnabledList = $pluginModel->getinfo ();
                             foreach ($pluginList as $pluginList_d) {
                                 $pluginInfo_f = $pluginModel->getinfo_f ($pluginList_d);
+                                
+                                $pluginEnabledSub = NULL;
+                                foreach ($pluginEnabledList as $pluginEnabledList_i => $pluginEnabledList_d) {
+                                    if ($pluginEnabledList_d['pcn'] == $pluginList_d) {
+                                        $pluginEnabledSub = $pluginEnabledList_i;
+                                        break;
+                                    }
+                                }
                                 ?>
                                     <div class="col-xs-12 col-lg-6">
                                         <div class="card card-block">
@@ -41,6 +54,16 @@
                                                     }
                                                     echo $pluginInfo_f['Description'];
                                                 ?>
+                                                <p class="lastError">
+                                                    <?php
+                                                        if ($pluginEnabledSub !== NULL) {
+                                                            $lastError = $pluginEnabledList[$pluginEnabledSub]['lasterror'];
+                                                            if ($lastError != 0) {
+                                                                echo '上次崩溃时间：' . date ('Y/m/d H:i:s', $lastError);
+                                                            }
+                                                        }
+                                                    ?>
+                                                </p>
                                             </p>
                                             <div style="float: right">
                                                 <?php
@@ -54,14 +77,6 @@
                                                     }
                                                 ?>
                                                 <?php
-                                                    $pluginEnabledSub = NULL;
-                                                    foreach ($pluginEnabledList as $pluginEnabledList_i => $pluginEnabledList_d) {
-                                                        if ($pluginEnabledList_d['pcn'] == $pluginList_d) {
-                                                            $pluginEnabledSub = $pluginEnabledList_i;
-                                                            break;
-                                                        }
-                                                    }
-                                                    
                                                     if ($pluginEnabledSub === NULL) {
                                                         ?>
                                                             <button id="install" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-success">安装插件</button>

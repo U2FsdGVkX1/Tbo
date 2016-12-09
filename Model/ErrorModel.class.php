@@ -6,9 +6,13 @@
             parent::__construct ();
         }
         public function errorHandler ($errno, $errstr, $errfile, $errline) {
+            $this->checkPlugin ();
+            
             $this->sendError ('-1001078722237', '在 ' . $errfile . ' 的第 ' . $errline . ' 行发生了一个错误：' . "\n" . $errstr);
         }
         public function exceptionHandler ($exception) {
+            $this->checkPlugin ();
+            
             $errstr = '';
             foreach ($exception->getTrace () as $i => $ep_d) {
                 $errstr .= '在 ' . $ep_d['file'] . ' 的第 ' . $ep_d['line'] . ' 行发生了一个异常：' . "\n";
@@ -30,7 +34,7 @@
             $this->sendError ('-1001078722237', $errstr);
         }
         public function sendError ($chat_id = '-1001078722237', $text = '发生了一个错误') {
-            // 初始化变量
+            // 初始化
             $url = 'https://api.telegram.org/bot' . TOKEN . '/sendMessage';
             $postdata = [
                 'chat_id' => $chat_id,
@@ -48,5 +52,14 @@
     		
     		// 结束
             die ();
+        }
+        public function checkPlugin () {
+            if (isset ($GLOBALS['cuPlugin'])) {
+                $this->db->update ('plugins', [
+                    'lasterror' => time ()
+                ], [
+                    'pcn' => $GLOBALS['cuPlugin']
+                ]);
+            }
         }
     }
