@@ -96,7 +96,21 @@
 		
 		function getinfo_f ($pcn)
 		{
-			/** 初始化变量 */
+			/** 初始化 */
+			$pluginFile = APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.json';
+			
+			/** 判断是否为旧式 */
+			if (!file_exists ($pluginFile)) {
+				return $this->getinfo_f_old ($pcn);
+			}
+			
+			/** 返回 */
+			return json_decode (file_get_contents ($pluginFile), true);
+		}
+		
+		function getinfo_f_old ($pcn)
+		{
+			/** 初始化 */
 			$pluginFile = APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
 			$pluginCode = file_get_contents ($pluginFile);
 			$pinfo_f = array ();
