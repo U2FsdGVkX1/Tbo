@@ -8,30 +8,31 @@
         public function errorHandler ($errno, $errstr, $errfile, $errline) {
             $this->checkPlugin ();
             
-            $this->sendError ('-1001078722237', '在 ' . $errfile . ' 的第 ' . $errline . ' 行发生了一个错误：' . "\n" . $errstr);
+            $errMsg = '在 ' . $errfile . ' 的第 ' . $errline . ' 行发生了一个错误：' . "\n" . $errstr;
+            $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
         }
         public function exceptionHandler ($exception) {
             $this->checkPlugin ();
             
-            $errstr = '';
+            $errMsg = '';
             foreach ($exception->getTrace () as $i => $ep_d) {
-                $errstr .= '在 ' . $ep_d['file'] . ' 的第 ' . $ep_d['line'] . ' 行发生了一个异常：' . "\n";
+                $errMsg .= '在 ' . $ep_d['file'] . ' 的第 ' . $ep_d['line'] . ' 行发生了一个异常：' . "\n";
                 if (!empty ($ep_d['class'])) {
-					$errstr .= $ep_d['class'] . '->';
+					$errMsg .= $ep_d['class'] . '->';
 				}
 				if (!empty ($ep_d['function'])) {
-				    $errstr .= $ep_d['function'] . ' ';
-				    $errstr .= '(';
+				    $errMsg .= $ep_d['function'] . ' ';
+				    $errMsg .= '(';
 					
 					if (!empty ($ep_d['args'])) {
-						$errstr .= var_export ($ep_d['args'], true);
+						$errMsg .= var_export ($ep_d['args'], true);
 					}
 					
-					$errstr .= ')';
+					$errMsg .= ')';
 				}
-				$errstr .= "\n";
+				$errMsg .= "\n";
             }
-            $this->sendError ('-1001078722237', $errstr);
+            $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
         }
         public function sendError ($chat_id = '-1001078722237', $text = '发生了一个错误') {
             // 初始化
@@ -53,7 +54,7 @@
     		// 结束
             die ();
         }
-        public function checkPlugin () {
+        private function checkPlugin () {
             if (isset ($GLOBALS['cuPlugin'])) {
                 $this->db->update ('plugins', [
                     'lasterror' => time ()
@@ -61,5 +62,8 @@
                     'pcn' => $GLOBALS['cuPlugin']
                 ]);
             }
+        }
+        private function replacePath ($str) {
+            return str_replace (APP_PATH, '', $str);
         }
     }
