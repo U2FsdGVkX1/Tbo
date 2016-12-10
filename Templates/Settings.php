@@ -35,7 +35,7 @@
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">开启 Debug 功能</span>
                     </label>
-                    <div id="debugAlert" style="display: none" class="alert alert-info" role="alert">
+                    <div id="debugAlert" <?php if (!DEBUG) echo 'style="display: none"' ?> class="alert alert-info" role="alert">
                         <strong>勾选此选项将会在出现错误或异常时发送报告</strong>
                         <br>
                         <br>
