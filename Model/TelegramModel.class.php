@@ -2,6 +2,10 @@
     class TelegramModel extends FLModel {
         private $ret;
         
+        public function __construct ($token = NULL) {
+        	$this->token = $token;
+        	parent::__construct ();
+        }
         private function fetch ($url, $postdata = null) {
             // 访问
     		$ch = curl_init ();
@@ -18,7 +22,11 @@
     	}
     	protected function callMethod ($method, $param = array (), $detection = true) {
     	    // 初始化变量
-            $url = API_URL . $method;
+    	    if ($this->token === NULL) {
+            	$url = 'https://api.telegram.org/bot' . TOKEN . '/' . $method;
+            } else {
+            	$url = 'https://api.telegram.org/bot' . $this->token . '/' . $method;
+            }
             
             // 访问网页
             $ret = json_decode ($this->fetch ($url, $param), true);

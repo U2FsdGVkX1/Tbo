@@ -70,4 +70,44 @@
 			/** 返回 */
 			exit (json_encode (array ('code' => 0)));
         }
+        function installAll () {
+        	/** 初始化 */
+			$pluginModel = new PluginModel;
+			
+			/** 安装 */
+			$pluginModel->installAll ();
+			
+			/** 返回 */
+			exit (json_encode (array ('code' => 0)));
+        }
+        function uninstallAll () {
+        	/** 初始化 */
+			$pluginModel = new PluginModel;
+			
+			/** 安装 */
+			$pluginModel->uninstallAll ();
+			
+			/** 返回 */
+			exit (json_encode (array ('code' => 0)));
+        }
+        function enableAll () {
+        	/** 初始化 */
+			$pluginModel = new PluginModel;
+			
+			/** 安装 */
+			$pluginModel->enableAll ();
+			
+			/** 返回 */
+			exit (json_encode (array ('code' => 0)));
+        }
+        function disableAll () {
+        	/** 初始化 */
+			$pluginModel = new PluginModel;
+			
+			/** 安装 */
+			$pluginModel->disableAll ();
+			
+			/** 返回 */
+			exit (json_encode (array ('code' => 0)));
+        }
     }

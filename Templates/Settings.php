@@ -80,6 +80,7 @@
                     type: "POST",
                     url: "<?php echo APP_URL ?>/index.php/settings/setWebhook",
                     data: {
+                    	"botToken": $("input#botToken").val()
                     },
                     success: function(data, textStatus, jqXHR){
                         textOld = $(buttonThis).text();
@@ -103,6 +104,7 @@
                     type: "POST",
                     url: "<?php echo APP_URL ?>/index.php/settings/getUsername",
                     data: {
+                    	"botToken": $("input#botToken").val()
                     },
                     success: function(data, textStatus, jqXHR){
                         textOld = $(buttonThis).text();

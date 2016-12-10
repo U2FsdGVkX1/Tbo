@@ -103,6 +103,14 @@
                         ?>
                     </div>
                 </div>
+                <div class="col-xs-12">
+                	<div style="float: right">
+	                	<button id="installAll" type="button" class="btn btn-success">安装全部插件</button>
+	                	<button id="uninstallAll" type="button" class="btn btn-danger">卸载全部插件</button>
+	                	<button id="enableAll" type="button" class="btn btn-info">启用全部插件</button>
+	                	<button id="disableAll" type="button" class="btn btn-warning">禁用全部插件</button>
+	                </div>
+                </div>
             </div>
         </div>
         <?php require_once 'Footer.php' ?>
@@ -130,7 +138,7 @@
                     },
                     dataType: "json"
                 });
-            })
+            });
         </script>
     </body>
 </html>

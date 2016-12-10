@@ -1,10 +1,47 @@
 <?php
 	class PluginModel extends FLModel {
+		function installAll ()
+		{
+			$pluginList = $this->scan ();
+			
+			if (!empty ($pluginList)) {
+				$this->db->pdo->beginTransaction ();
+				foreach ($pluginList as $pluginList_d) {
+					$this->db->insert ('plugins', [
+					    'pcn' => $pluginList_d,
+					    'enabled' => 0,
+					    'lasterror' => 0
+					]);
+				}
+				$this->db->pdo->commit ();
+			}
+		}
+		
+		function uninstallAll ()
+		{
+			$this->db->delete ('plugins');
+		}
+		
+		function enableAll ()
+        {
+            $this->db->update ('plugins', [
+			    'enabled' => 1
+			]);
+        }
+        
+        function disableAll ()
+        {
+            $this->db->update ('plugins', [
+			    'enabled' => 0
+			]);
+        }
+		
 		function install ($pcn)
 		{
 			$this->db->insert ('plugins', [
 			    'pcn' => $pcn,
-			    'enabled' => 0
+			    'enabled' => 0,
+			    'lasterror' => 0,
 			]);
 		}
 
