@@ -80,6 +80,7 @@
                                                     if ($pluginEnabledSub === NULL) {
                                                         ?>
                                                             <button id="install" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-success">安装插件</button>
+                                                            <button id="remove" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-danger">移除插件</button>
                                                         <?php
                                                     } else {
                                                         if ($pluginEnabledList[$pluginEnabledSub]['enabled'] == 0) {
@@ -104,12 +105,13 @@
                     </div>
                 </div>
                 <div class="col-xs-12">
-                	<div style="float: right">
-	                	<button id="installAll" type="button" class="btn btn-success">安装全部插件</button>
-	                	<button id="uninstallAll" type="button" class="btn btn-danger">卸载全部插件</button>
-	                	<button id="enableAll" type="button" class="btn btn-info">启用全部插件</button>
-	                	<button id="disableAll" type="button" class="btn btn-warning">禁用全部插件</button>
-	                </div>
+                    <div style="float: right">
+                        <button id="installAll" type="button" class="btn btn-success">安装全部插件</button>
+                        <button id="uninstallAll" type="button" class="btn btn-danger">卸载全部插件</button>
+                        <button id="enableAll" type="button" class="btn btn-info">启用全部插件</button>
+                        <button id="disableAll" type="button" class="btn btn-warning">禁用全部插件</button>
+                        <a href="<?php echo APP_URL ?>/index.php/PluginCreate" class="btn btn-primary">新建插件</a>
+                    </div>
                 </div>
             </div>
         </div>
