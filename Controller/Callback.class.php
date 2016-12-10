@@ -107,7 +107,7 @@
     		        foreach ($pluginList as $pluginList_d) {
     		            $pluginName = $pluginList_d['pcn'];
     		            
-    		            $cuPlugin = $pluginName;
+    		            $GLOBALS['cuPlugin'] = $pluginName;
     	                require_once APP_PATH . '/Plugins/' . $pluginName . '/' . $pluginName . '.class.php';
     	                $object[] = $objectNew = new $pluginName ($data);
     	                if (method_exists ($objectNew, 'init'))
@@ -116,7 +116,7 @@
     		        
     		        foreach ($object as $object_d) {
     		            if (method_exists ($object_d, $func)) {
-    		                $cuPlugin = get_class ($object_d);
+    		                $GLOBALS['cuPlugin'] = get_class ($object_d);
     		                call_user_func_array (array ($object_d, $func), $param);
     		            }
     		        }
