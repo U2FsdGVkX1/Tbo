@@ -19,6 +19,7 @@
     define ('BOTNAME', '{$_POST['botName']}');
     define ('TOKEN', '{$_POST['botToken']}');
     define ('API_URL', 'https://api.telegram.org/bot' . TOKEN . '/');
+    define ('DEBUG', {$_POST['debug']});
 ";
             file_put_contents (CONFIG_PATH . '/BotConfig.php', $config);
             

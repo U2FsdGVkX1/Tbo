@@ -35,23 +35,26 @@
             $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
         }
         public function sendError ($chat_id = '-1001078722237', $text = '发生了一个错误') {
-            // 初始化
-            $url = 'https://api.telegram.org/bot' . TOKEN . '/sendMessage';
-            $postdata = [
-                'chat_id' => $chat_id,
-                'text' => $text
-            ];
-            
-            // 发送报告
-            $ch = curl_init ();
-    		curl_setopt ($ch, CURLOPT_URL, $url);
-    		curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata);
-    		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
-    		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-    		$re = curl_exec ($ch);
-    		curl_close ($ch);
+            /** 判断是否发送报告 */
+            if (DEBUG) {
+                /** 初始化 */
+                $url = 'https://api.telegram.org/bot' . TOKEN . '/sendMessage';
+                $postdata = [
+                    'chat_id' => $chat_id,
+                    'text' => $text
+                ];
+                
+                /** 发送报告 */
+                $ch = curl_init ();
+        		curl_setopt ($ch, CURLOPT_URL, $url);
+        		curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata);
+        		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
+        		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+        		$re = curl_exec ($ch);
+        		curl_close ($ch);
+            }
     		
-    		// 结束
+    		/** 结束 */
             die ();
         }
         private function checkPlugin () {

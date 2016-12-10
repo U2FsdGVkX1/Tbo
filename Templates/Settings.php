@@ -30,6 +30,18 @@
                         <input id="password" type="text" class="form-control" aria-describedby="password">
                     </div>
                     <br>
+                    <label class="custom-control custom-checkbox">
+                        <input id="debug" type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">开启 Debug 功能</span>
+                    </label>
+                    <div id="debugAlert" style="display: none" class="alert alert-info" role="alert">
+                        <strong>勾选此选项将会在出现错误或异常时发送报告</strong>
+                        <br>
+                        <br>
+                        PS：要取得错误报告需要<del>先肛了果果</del>加入这个<a href="https://telegram.me/Tencent_QQ" target="_blink">群组</a>
+                    </div>
+                    <br>
                     <button id="save" style="float: right" type="button" class="btn btn-success">确定</button>
                 </div>
             </div>
@@ -45,7 +57,8 @@
                     data: {
                         "botName": $("input#botName").val(),
                         "botToken": $("input#botToken").val(),
-                        "password": $("input#password").val()
+                        "password": $("input#password").val(),
+                        "debug": $("input#debug").prop("checked")
                     },
                     success: function(data, textStatus, jqXHR){
                         if(data.code == '0'){
@@ -106,6 +119,9 @@
                     dataType: "json"
                 });
             });
+            $("input#debug").change(function(){
+                $("div#debugAlert").fadeToggle();
+            })
         </script>
     </body>
 </html>
