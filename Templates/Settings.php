@@ -31,7 +31,7 @@
                     </div>
                     <br>
                     <label class="custom-control custom-checkbox">
-                        <input id="debug" type="checkbox" class="custom-control-input">
+                        <input id="debug" type="checkbox" class="custom-control-input" <?php if (DEBUG) echo 'checked' ?>>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">开启 Debug 功能</span>
                     </label>
