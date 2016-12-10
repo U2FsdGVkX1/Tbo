@@ -14,4 +14,4 @@ Tbo 使用了以下库，感谢它们的贡献：
 
 ---
 
-对了对了，要使用报错提醒功能，就快快联系果果家 [Throw Expection](https://github.com/imguoguo)（被打
+对了对了，要使用报错提醒功能，就快快联系[果果](https://github.com/imguoguo)家 Throw Expection（被打
