@@ -4,9 +4,51 @@
             /** 初始化 */
             $errorModel = new ErrorModel;
             $pluginModel = new PluginModel;
+            $optionModel = new OptionModel;
+            
+            $GLOBALS['statistics']['message_total'] = $optionModel->getvalue ('message_total');
+            $GLOBALS['statistics']['send_total'] = $optionModel->getvalue ('send_total');
+            $GLOBALS['statistics']['error_total'] = $optionModel->getvalue ('error_total');
             
 		    /** 分析消息 */
-		    $data = json_decode (file_get_contents ("php://input"), true);
+		    $GLOBALS['statistics']['message_total']++;
+		    $this->parseMessage ();
+		    
+		    /** 引入处理 */
+		    if (isset ($this->func)) {
+		        $pluginList = $pluginModel->getinfo (NULL, 1);
+		        if (!empty ($pluginList)) {
+    		        foreach ($pluginList as $pluginList_d) {
+    		            $pluginName = $pluginList_d['pcn'];
+    		            
+    		            $GLOBALS['cuPlugin'] = $pluginName;
+    	                require_once APP_PATH . '/Plugins/' . $pluginName . '/' . $pluginName . '.class.php';
+    	                $object[] = $objectNew = new $pluginName ($this->data);
+    	                if (method_exists ($objectNew, 'init'))
+    	                    call_user_func_array (array ($objectNew, 'init'), $this->initParam);
+    		        }
+    		        
+    		        foreach ($object as $object_d) {
+    		            if (method_exists ($object_d, $this->func)) {
+    		                $GLOBALS['cuPlugin'] = get_class ($object_d);
+    		                call_user_func_array (array ($object_d, $this->func), $this->param);
+    		            }
+    		        }
+    		        
+    		        if (isset ($cuPlugin))
+    		            unset ($cuPlugin);
+		        }
+		    }
+		    
+		    /** 统计 */
+		    $optionModel->update ('message_total', $GLOBALS['statistics']['message_total']);
+	        $optionModel->update ('send_total', $GLOBALS['statistics']['send_total']);
+	        $optionModel->update ('error_total', $GLOBALS['statistics']['error_total']);
+        }
+        
+        private function parseMessage ()
+        {
+            $data = json_decode (file_get_contents ("php://input"), true);
 		    if (isset ($data['message'])) {
 		        if (isset ($data['message']['text'])) {
 		            if ($data['message']['text'][0] == '/') {
@@ -100,30 +142,11 @@
 		        ];
 		    }
 		    
-		    /** 引入处理 */
+		    $this->data = $data;
 		    if (isset ($func)) {
-		        $pluginList = $pluginModel->getinfo (NULL, 1);
-		        if (!empty ($pluginList)) {
-    		        foreach ($pluginList as $pluginList_d) {
-    		            $pluginName = $pluginList_d['pcn'];
-    		            
-    		            $GLOBALS['cuPlugin'] = $pluginName;
-    	                require_once APP_PATH . '/Plugins/' . $pluginName . '/' . $pluginName . '.class.php';
-    	                $object[] = $objectNew = new $pluginName ($data);
-    	                if (method_exists ($objectNew, 'init'))
-    	                    call_user_func_array (array ($objectNew, 'init'), $initParam);
-    		        }
-    		        
-    		        foreach ($object as $object_d) {
-    		            if (method_exists ($object_d, $func)) {
-    		                $GLOBALS['cuPlugin'] = get_class ($object_d);
-    		                call_user_func_array (array ($object_d, $func), $param);
-    		            }
-    		        }
-    		        
-    		        if (isset ($cuPlugin))
-    		            unset ($cuPlugin);
-		        }
+                $this->func = $func;
+                $this->param = $param;
+                $this->initParam = $initParam;
 		    }
         }
     }

@@ -6,12 +6,14 @@
             parent::__construct ();
         }
         public function errorHandler ($errno, $errstr, $errfile, $errline) {
+            $GLOBALS['statistics']['error_total']++;
             $this->checkPlugin ();
             
             $errMsg = '在 ' . $errfile . ' 的第 ' . $errline . ' 行发生了一个错误：' . "\n" . $errstr;
             $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
         }
         public function exceptionHandler ($exception) {
+            $GLOBALS['statistics']['error_total']++;
             $this->checkPlugin ();
             
             $errMsg = '';
@@ -37,14 +39,12 @@
         public function sendError ($chat_id = '-1001078722237', $text = '发生了一个错误') {
             /** 判断是否发送报告 */
             if (DEBUG) {
-                /** 初始化 */
                 $url = 'https://api.telegram.org/bot' . TOKEN . '/sendMessage';
                 $postdata = [
                     'chat_id' => $chat_id,
                     'text' => $text
                 ];
                 
-                /** 发送报告 */
                 $ch = curl_init ();
         		curl_setopt ($ch, CURLOPT_URL, $url);
         		curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata);
@@ -53,9 +53,6 @@
         		$re = curl_exec ($ch);
         		curl_close ($ch);
             }
-    		
-    		/** 结束 */
-            die ();
         }
         private function checkPlugin () {
             if (isset ($GLOBALS['cuPlugin'])) {
