@@ -90,8 +90,8 @@
                                                             <?php
                                                         } else {
                                                             ?>
+                                                            	<button id="settings" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-info" data-toggle="modal" data-target="#pluginSettings">设置插件</button>
                                                                 <button id="disable" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-warning">禁用插件</button>
-                                                                <button id="settings" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-info" data-toggle="modal" data-target="#pluginSettings">设置插件</button>
                                                             <?php
                                                         }
                                                     }
