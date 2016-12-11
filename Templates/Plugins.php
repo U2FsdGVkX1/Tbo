@@ -138,7 +138,7 @@
 		</div>
         <?php require_once 'Footer.php' ?>
         <script>
-            $("#install,#uninstall,#enable,#disable,#installAll,#uninstallAll,#enableAll,#disableAll").click(function(){
+            $("#install,#uninstall,#enable,#disable,#remove,#installAll,#uninstallAll,#enableAll,#disableAll").click(function(){
                 buttonThis = $(this);
                 $(buttonThis).attr("disabled", "disabled");
                 $.ajax({
