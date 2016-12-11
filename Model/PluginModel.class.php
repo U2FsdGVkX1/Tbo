@@ -1,43 +1,20 @@
 <?php
 	class PluginModel extends FLModel {
-		function installAll ()
-		{
-			$pluginList = $this->scan ();
-			
-			if (!empty ($pluginList)) {
-				$this->db->pdo->beginTransaction ();
-				foreach ($pluginList as $pluginList_d) {
-					$this->db->insert ('plugins', [
-					    'pcn' => $pluginList_d,
-					    'enabled' => 0,
-					    'lasterror' => 0
-					]);
-				}
-				$this->db->pdo->commit ();
-			}
-		}
-		
-		function uninstallAll ()
-		{
-			$this->db->delete ('plugins');
-		}
-		
-		function enableAll ()
-        {
-            $this->db->update ('plugins', [
-			    'enabled' => 1
-			]);
-        }
-        
-        function disableAll ()
-        {
-            $this->db->update ('plugins', [
-			    'enabled' => 0
-			]);
-        }
-		
 		function install ($pcn)
 		{
+			/** 判断是否已安装 */
+			$pluginInfo = $this->getinfo ($pcn);
+			if (!empty ($pluginInfo)) {
+				return;
+			}
+			
+			/** 调用方法 */
+            require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
+    	    $plugin = new $pcn ('');
+    	    if (method_exists ($plugin, 'install'))
+    	        $plugin->install ();
+        	
+        	/** 安装插件 */
 			$this->db->insert ('plugins', [
 			    'pcn' => $pcn,
 			    'enabled' => 0,
@@ -47,6 +24,19 @@
 
 		function uninstall ($pcn)
 		{
+			/** 判断是否已安装 */
+			$pluginInfo = $this->getinfo ($pcn);
+			if (empty ($pluginInfo)) {
+				return;
+			}
+			
+			/** 调用方法 */
+            require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
+    	    $plugin = new $pcn ('');
+    	    if (method_exists ($plugin, 'uninstall'))
+    	        $plugin->uninstall ();
+        	
+        	/** 卸载插件 */
 			$this->db->delete ('plugins', [
 			    'pcn' => $pcn
 			]);
@@ -54,6 +44,19 @@
         
         function enable ($pcn)
         {
+        	/** 判断是否已启用 */
+			$pluginInfo = $this->getinfo ($pcn);
+			if (empty ($pluginInfo) || $pluginInfo[0]['enabled'] == 1) {
+				return;
+			}
+			
+        	/** 调用方法 */
+            require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
+    	    $plugin = new $pcn ('');
+    	    if (method_exists ($plugin, 'enable'))
+    	        $plugin->enable ();
+        	
+        	/** 更新启用 */
             $this->db->update ('plugins', [
 			    'enabled' => 1
 			], [
@@ -63,13 +66,41 @@
         
         function disable ($pcn)
         {
+        	/** 判断是否已禁用 */
+			$pluginInfo = $this->getinfo ($pcn);
+			if (empty ($pluginInfo) || $pluginInfo[0]['enabled'] == 0) {
+				return;
+			}
+			
+            /** 调用方法 */
+            require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
+    	    $plugin = new $pcn ('');
+    	    if (method_exists ($plugin, 'disable'))
+    	        $plugin->disable ();
+        	
+            /** 更新禁用 */
             $this->db->update ('plugins', [
 			    'enabled' => 0
 			], [
 			    'pcn' => $pcn
 			]);
         }
-        
+        function settings ($pcn)
+        {
+            /** 调用方法 */
+            require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
+    	    $plugin = new $pcn ('');
+    	    if (method_exists ($plugin, 'settings')) {
+    	        $plugin->settings ();
+    	    	$contents = ob_get_contents ();
+    	    	ob_clean ();
+    	    } else {
+    	    	$contents = NULL;
+    	    }
+    	    
+    	    /** 返回 */
+    	    return $contents;
+        }
 		function getinfo ($pcn = NULL, $enabled = NULL, $limit = 0, $count = false)
 		{
 		    /** 查询 */

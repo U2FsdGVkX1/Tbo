@@ -75,7 +75,10 @@
             $pluginModel = new PluginModel;
             
             /** 安装 */
-            $pluginModel->installAll ();
+            $pluginList = $pluginModel->scan ();
+            foreach ($pluginList as $pluginList_d) {
+            	$pluginModel->install ($pluginList_d);
+            }
             
             /** 返回 */
             exit (json_encode (array ('code' => 0)));
@@ -84,8 +87,11 @@
             /** 初始化 */
             $pluginModel = new PluginModel;
             
-            /** 安装 */
-            $pluginModel->uninstallAll ();
+            /** 卸载 */
+            $pluginList = $pluginModel->getinfo ();
+            foreach ($pluginList as $pluginList_d) {
+            	$pluginModel->uninstall ($pluginList_d['pcn']);
+            }
             
             /** 返回 */
             exit (json_encode (array ('code' => 0)));
@@ -94,8 +100,11 @@
             /** 初始化 */
             $pluginModel = new PluginModel;
             
-            /** 安装 */
-            $pluginModel->enableAll ();
+            /** 启用 */
+            $pluginList = $pluginModel->getinfo ();
+            foreach ($pluginList as $pluginList_d) {
+            	$pluginModel->enable ($pluginList_d['pcn']);
+            }
             
             /** 返回 */
             exit (json_encode (array ('code' => 0)));
@@ -104,11 +113,33 @@
             /** 初始化 */
             $pluginModel = new PluginModel;
             
-            /** 安装 */
-            $pluginModel->disableAll ();
+            /** 禁用 */
+            $pluginList = $pluginModel->getinfo ();
+            foreach ($pluginList as $pluginList_d) {
+            	$pluginModel->disable ($pluginList_d['pcn']);
+            }
             
             /** 返回 */
             exit (json_encode (array ('code' => 0)));
+        }
+        function settings () {
+            /** 检查 */
+            if (empty ($_POST['pcn'])) {
+                exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
+            }
+            
+            /** 初始化 */
+            $pluginModel = new PluginModel;
+            
+            /** 获取设置 */
+            $pluginSettingsContents = $pluginModel->settings ($_POST['pcn']);
+            
+            /** 返回 */
+            if ($pluginSettingsContents !== NULL) {
+				exit (json_encode (array ('code' => 0, 'contents' => $pluginSettingsContents)));
+			} else {
+				exit (json_encode (array ('code' => -1, 'msg' => '该插件没有设置')));
+			}
         }
         function remove () {
             /** 检查 */

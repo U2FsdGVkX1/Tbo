@@ -91,6 +91,7 @@
                                                         } else {
                                                             ?>
                                                                 <button id="disable" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-warning">禁用插件</button>
+                                                                <button id="settings" data-pcn="<?php echo $pluginList_d ?>" type="button" class="btn btn-info" data-toggle="modal" data-target="#pluginSettings">设置插件</button>
                                                             <?php
                                                         }
                                                     }
@@ -115,9 +116,29 @@
                 </div>
             </div>
         </div>
+		<div id="pluginSettings" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby=".bd-example-modal-lg" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">关闭</span>
+						</button>
+						<h4 id="pluginSettingsTitle" class="modal-title">插件设置</h4>
+					</div>
+					<div class="modal-body">
+						<div id="pluginSettingsContents">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button onclick="saveSettings()" type="button" class="btn btn-primary">保存设置</button>
+					</div>
+				</div>
+			</div>
+		</div>
         <?php require_once 'Footer.php' ?>
         <script>
-            $("button").click(function(){
+            $("#install,#uninstall,#enable,#disable,#installAll,#uninstallAll,#enableAll,#disableAll").click(function(){
                 buttonThis = $(this);
                 $(buttonThis).attr("disabled", "disabled");
                 $.ajax({
@@ -136,6 +157,26 @@
                                 $(buttonThis).text(textOld);
                                 $(buttonThis).removeAttr("disabled");
                             }, 2000);
+                        }
+                    },
+                    dataType: "json"
+                });
+            });
+            $("button#settings").click(function(){
+                buttonThis = $(this);
+                
+                $("h4#pluginSettingsTitle").text(buttonThis.data("pcn") + " 设置");
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo APP_URL ?>/index.php/plugins/settings",
+                    data: {
+                        "pcn": $(buttonThis).data("pcn")
+                    },
+                    success: function(data, textStatus, jqXHR){
+                        if(data.code == '0'){
+                            $("div#pluginSettingsContents").html(data.contents);
+                        }else{
+                            $("div#pluginSettingsContents").html(data.msg);
                         }
                     },
                     dataType: "json"

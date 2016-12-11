@@ -36,6 +36,18 @@
         public function left_member ($left_member, $message_id, $from, $chat, $date) {
             
         }
+        public function install () {
+            
+        }
+        public function uninstall () {
+            
+        }
+        public function enable () {
+            
+        }
+        public function disable () {
+            
+        }
     }
 ');
 ?>
