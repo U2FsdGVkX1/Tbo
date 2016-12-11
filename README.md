@@ -8,6 +8,14 @@
 
 ---
 
-Tbo 使用了以下库，感谢它们的贡献：
+Tbo 使用了以下开源项目，感谢它们的贡献：
 
 [FrameLite](https://github.com/U2FsdGVkX1/FrameLite)
+
+[Bootstrap](https://github.com/twbs/bootstrap)
+
+[jQuery](https://github.com/jquery/jquery)
+
+[js.cookie](https://github.com/js-cookie/js-cookie)
+
+[Ace](https://github.com/ajaxorg/ace)
