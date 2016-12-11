@@ -48,6 +48,9 @@
         public function disable () {
             
         }
+        public function settings () {
+            
+        }
     }
 ');
 ?>
