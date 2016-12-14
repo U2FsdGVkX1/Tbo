@@ -1,4 +1,7 @@
 <?php
+    $pjax = isset ($_SERVER['HTTP_X_PJAX']);
+?>
+<?php
     /** 初始化 */
     $optionModel = new OptionModel;
     $telegramModel = new TelegramModel;
@@ -12,41 +15,40 @@
     $status = $telegramModel->getMe ();
     $boom = !$status['ok'];
 ?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-        <title>后台</title>
-        <?php require_once 'Header.php' ?>
-    </head>
-    <body>
-        <?php require_once 'Sidebar.php' ?>
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12" style="margin-top: 10px">
-                    <?php
-                        if ($boom) {
-                            ?>
-                            <div class="alert alert-danger" role="alert">
-                                <strong>你的 Bot 好像 boom 了，建议检查 Token 是否正确</strong>
-                            </div>
-                            <?php
-                        } else {
-                            ?>
-                            <div class="alert alert-success" role="alert">
-                                <strong>你的 Bot 正在运行……</strong>
-                            </div>
-                            <?php
-                        }
-                    ?>
+<?php if ($pjax == false) require_once 'Header1.php' ?>
+<title>Bot 状态</title>
+<?php if ($pjax == false) require_once 'Header2.php' ?>
+<?php if ($pjax == false) require_once 'Sidebar.php' ?>
+<?php if ($pjax == false) echo '<div class="container" id="container">' ?>
+
+<div class="row">
+    <div class="col-xs-12" style="margin-top: 10px">
+        <?php
+            if ($boom) {
+                ?>
+                <div class="alert alert-danger" role="alert">
+                    <strong>你的 Bot 好像 boom 了，建议检查 Token 是否正确</strong>
                 </div>
-                <div class="col-xs-12" style="margin-top: 10px">
-                    <canvas id="statistics"></canvas>
+                <?php
+            } else {
+                ?>
+                <div class="alert alert-success" role="alert">
+                    <strong>你的 Bot 正在运行……</strong>
                 </div>
-            </div>
-        </div>
-        <?php require_once 'Footer.php' ?>
-        <script src="<?php echo $this->loadSource ("assets/js/Chart.min.js") ?>" type="text/javascript" charset="utf-8"></script>
-        <script>
+                <?php
+            }
+        ?>
+    </div>
+    <div class="col-xs-12" style="margin-top: 10px">
+        <canvas id="statistics"></canvas>
+    </div>
+</div> 
+<script src="<?php echo $this->loadSource ("assets/js/Chart.min.js") ?>"></script>
+<script>
+    var timer = setInterval(function(){
+        if(typeof(Chart) != "undefined"){
+            clearInterval(timer);
+            
             var ctx = $("#statistics");
             var statistics = new Chart(ctx, {
                 type: 'pie',
@@ -75,6 +77,9 @@
                     },
                 }
             });
-        </script>
-    </body>
-</html>
+        }
+    }, 500);
+</script>
+
+<?php if ($pjax == false) echo '</div>' ?>
+<?php if ($pjax == false) require_once 'Footer.php' ?>

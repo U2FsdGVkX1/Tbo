@@ -54,42 +54,44 @@
     }
 ');
 ?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-        <title>设置</title>
-        <?php require_once 'Header.php' ?>
-        <style>
-            #code {
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                width: 100%;
-                height: 750px;
-            }
-        </style>
-    </head>
-    <body>
-        <?php require_once 'Sidebar.php' ?>
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12" style="margin-top: 10px">
-                    <div class="input-group">
-                        <input id="pcn" type="text" class="form-control" placeholder="插件 PCN" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">.class.php</span>
-                    </div>
-                </div>
-                <div class="col-xs-12" style="margin-top: 10px">
-                    <div id="code"><?php echo htmlspecialchars (DEFAULT_CODE) ?></div>
-                </div>
-                <div class="col-xs-12" style="margin-top: 760px">
-                    <button id="create" style="float: right" type="button" class="btn btn-success">创建</button>
-                </div>
-            </div>
+<?php
+    $pjax = isset ($_SERVER['HTTP_X_PJAX']);
+?>
+<?php if ($pjax == false) require_once 'Header1.php' ?>
+<title>创建插件</title>
+<?php if ($pjax == false) require_once 'Header2.php' ?>
+<?php if ($pjax == false) require_once 'Sidebar.php' ?>
+<?php if ($pjax == false) echo '<div class="container" id="container">' ?>
+
+<div class="row">
+    <div class="col-xs-12" style="margin-top: 10px">
+        <div class="input-group">
+            <input id="pcn" type="text" class="form-control" placeholder="插件 PCN" aria-describedby="basic-addon2">
+            <span class="input-group-addon" id="basic-addon2">.class.php</span>
         </div>
-        <?php require_once 'Footer.php' ?>
-        <script src="<?php echo $this->loadSource ("assets/ace/ace.js") ?>" type="text/javascript" charset="utf-8"></script>
-        <script>
+    </div>
+    <div class="col-xs-12" style="margin-top: 10px">
+        <div id="code"><?php echo htmlspecialchars (DEFAULT_CODE) ?></div>
+    </div>
+    <div class="col-xs-12" style="margin-top: 760px">
+        <button id="create" style="float: right" type="button" class="btn btn-success">创建</button>
+    </div>
+</div>
+<style>
+    #code {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 750px;
+    }
+</style>
+<script src="<?php echo $this->loadSource ("assets/ace/ace.js") ?>" type="text/javascript" charset="utf-8"></script>
+<script>
+    var timer = setInterval(function(){
+        if(typeof(ace) != "undefined"){
+            clearInterval(timer);
+            
             var editor = ace.edit("code");
             editor.getSession().setMode("ace/mode/php");
             editor.setTheme("ace/theme/clouds");
@@ -121,6 +123,9 @@
                     dataType: "json"
                 });
             });
-        </script>
-    </body>
-</html>
+        }
+    }, 500);
+</script>
+
+<?php if ($pjax == false) echo '</div>' ?>
+<?php if ($pjax == false) require_once 'Footer.php' ?>
