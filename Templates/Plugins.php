@@ -91,7 +91,7 @@
                                             }
                                         }
                                     ?>
-                                    <button id="edit" type="button" class="btn btn-primary">编辑插件</button>
+                                    <a class="btn btn-primary" href="<?php echo APP_URL ?>/index.php/PluginMain/edit/<?php echo $pluginList_d ?>" data-pjax="true">编辑插件</a>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
             <button id="uninstallAll" type="button" class="btn btn-danger">卸载全部插件</button>
             <button id="enableAll" type="button" class="btn btn-info">启用全部插件</button>
             <button id="disableAll" type="button" class="btn btn-warning">禁用全部插件</button>
-            <button id="createPlugin" type="button" class="btn btn-primary">新建插件</button>
+            <a class="btn btn-primary" href="<?php echo APP_URL ?>/index.php/PluginCreate" data-pjax="true">新建插件</a>
         </div>
     </div>
 </div> 
@@ -181,18 +181,6 @@
                 }
             },
             dataType: "json"
-        });
-    });
-    $("button#edit").click(function(){
-        $.pjax({
-            url: "<?php echo APP_URL ?>/index.php/PluginMain/edit/" + pcn,
-            container: "#container"
-        });
-    });
-    $("button#createPlugin").click(function(){
-        $.pjax({
-            url: "<?php echo APP_URL ?>/index.php/PluginCreate",
-            container: "#container"
         });
     });
 </script>

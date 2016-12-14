@@ -14,18 +14,3 @@
         </li>
     </ul>
 </nav>
-<script>
-    $(document).pjax('nav ul li a', '#container');
-    $("a#menu").each(function(){
-        $(this).attr("href", "<?php echo APP_URL . '/index.php/' ?>" + $(this).data("href"));
-    });
-    $("a#menu").click(function(){
-        $(this).parent().addClass("active");
-        if(typeof(oldMenu) != "undefined"){
-            oldMenu.parent().removeClass("active");
-        }
-        oldMenu = $(this);
-    });
-    oldMenu = $("a#menu[data-href='<?php echo $this->controller ?>']");
-    oldMenu.parent().addClass("active");
-</script>
