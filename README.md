@@ -19,3 +19,5 @@ Tbo 使用了以下开源项目，感谢它们的贡献：
 [js.cookie](https://github.com/js-cookie/js-cookie)
 
 [Ace](https://github.com/ajaxorg/ace)
+
+[jquery-pjax](https://github.com/defunkt/jquery-pjax)
