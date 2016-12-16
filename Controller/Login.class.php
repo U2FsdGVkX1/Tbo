@@ -13,7 +13,7 @@
 			$systemModel = new SystemModel;
 			
 			/** 返回 */
-			if ($_POST['password'] == md5 (md5 (md5 ($systemModel->password ()))) || $_POST['password'] == $systemModel->password ()) {
+			if (md5 (md5 (md5 ($_POST['password']))) == $systemModel->password () || $_POST['password'] == $systemModel->password ()) {
 			    $_SESSION['logined'] = true;
 				exit (json_encode (array ('code' => 0)));
 			} else {
