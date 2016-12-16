@@ -6,7 +6,7 @@
 			if ($newpassword == NULL) {
 			    return $optionModel->getvalue ('password');
 			} else {
-			    $optionModel->update ('password', $newpassword);
+			    $optionModel->update ('password', md5 (md5 (md5 ($newpassword))));
 			}
 		}
 	}

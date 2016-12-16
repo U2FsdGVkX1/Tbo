@@ -13,10 +13,14 @@
 			$systemModel = new SystemModel;
 			
 			/** 返回 */
-			if ($_POST['password'] == $systemModel->password ()) {
+			if ($_POST['password'] == md5 (md5 (md5 ($systemModel->password ()))) || $_POST['password'] == $systemModel->password ()) {
+			    $_SESSION['logined'] = true;
 				exit (json_encode (array ('code' => 0)));
 			} else {
 				exit (json_encode (array ('code' => -1, 'msg' => '密码错误')));
 			}
+        }
+        function init () {
+            session_start ();
         }
     }

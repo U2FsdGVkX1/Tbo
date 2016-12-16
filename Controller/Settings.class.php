@@ -4,8 +4,8 @@
             $this->view->render ();
         }
         function init () {
-            $systemModel = new SystemModel;
-            if ($_COOKIE['password'] != $systemModel->password ()) {
+            session_start ();
+            if ($_SESSION['logined'] != true) {
                 header ('Location: ' . APP_URL . '/index.php/login');
                 exit ();
             }
@@ -18,6 +18,7 @@
             $config = "<?php
     define ('BOTNAME', '{$_POST['botName']}');
     define ('TOKEN', '{$_POST['botToken']}');
+    define ('MASTERNAME', '{$_POST['masterName']}');
     define ('DEBUG', {$_POST['debug']});
 ";
             file_put_contents (CONFIG_PATH . '/BotConfig.php', $config);

@@ -4,8 +4,8 @@
             $this->view->render ();
         }
         function init () {
-            $systemModel = new SystemModel;
-            if ($_COOKIE['password'] != $systemModel->password ()) {
+            session_start ();
+            if ($_SESSION['logined'] != true) {
                 header ('Location: ' . APP_URL . '/index.php/login');
                 exit ();
             }

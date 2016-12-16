@@ -27,8 +27,13 @@
         </div>
         <br>
         <div class="input-group">
+            <span class="input-group-addon" id="masterName">主人名称</span>
+            <input id="masterName" type="text" class="form-control" aria-describedby="masterName" value="<?php echo MASTERNAME ?>">
+        </div>
+        <br>
+        <div class="input-group">
             <span class="input-group-addon" id="password">管理员密码</span>
-            <input id="password" type="text" class="form-control" aria-describedby="password">
+            <input id="password" type="password" class="form-control" aria-describedby="password">
         </div>
         <br>
         <label class="custom-control custom-checkbox">
@@ -56,6 +61,7 @@
             data: {
                 "botName": $("input#botName").val(),
                 "botToken": $("input#botToken").val(),
+                "masterName": $("input#masterName").val(),
                 "password": $("input#password").val(),
                 "debug": $("input#debug").prop("checked")
             },

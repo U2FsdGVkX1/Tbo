@@ -40,7 +40,6 @@
             },
             success: function(data, textStatus, jqXHR){
                 if(data.code == '0'){
-                    Cookies.set("password", $("input#loginBox-password").val());
                     location.href = "<?php echo APP_URL ?>/index.php";
                 }else{
                     textOld = $(buttonThis).text();
