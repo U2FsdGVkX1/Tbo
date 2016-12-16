@@ -18,7 +18,8 @@
         public function run ($urlmode = 1) {
             $this->urlmode = $urlmode;
             spl_autoload_register (array ($this, 'autoload'));
-            $this->route ();
+            if (!defined (NOROUTE))
+            	$this->route ();
         }
 
         /**

@@ -14,7 +14,7 @@
     define ('CONTROLLER_URL', APP_URL . '/Controller');
     define ('LIB_URL', APP_URL . '/Lib');
     
-    define ('FRAME_VERIONS', '1.9.1');
+    define ('FRAME_VERIONS', '1.9.3');
 
     /** 引入 */
     require_once FRAME_PATH . '/Core.php';
@@ -24,4 +24,4 @@
 
     /** 运行框架 */
     $f = new Core;
-    $f->run (3);
+    $f->run ();
