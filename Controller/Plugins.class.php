@@ -141,6 +141,25 @@
 				exit (json_encode (array ('code' => -1, 'msg' => '该插件没有设置')));
 			}
         }
+        function callback () {
+            /** 检查 */
+            if (empty ($_POST['pcn']) || empty ($_POST['method'])) {
+                exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
+            }
+            
+            /** 初始化 */
+            $pluginModel = new PluginModel;
+            
+            /** 获取设置 */
+            $ret = $pluginModel->callMethod ($_POST['pcn'], $_POST['method']);
+            
+            /** 返回 */
+            if ($ret == '') {
+				exit (json_encode (array ('code' => 0)));
+			} else {
+				exit (json_encode (array ('code' => -1, 'msg' => $ret)));
+			}
+        }
         function remove () {
             /** 检查 */
             if (empty ($_POST['pcn'])) {

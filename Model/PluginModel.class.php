@@ -101,6 +101,18 @@
     	    /** 返回 */
     	    return $contents;
         }
+        function callMethod ($pcn, $method)
+        {
+        	/** 调用方法 */
+            require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
+            $ret = '';
+    	    $plugin = new $pcn ('');
+    	    if (method_exists ($plugin, $method))
+    	    	$ret = $plugin->$method ();
+    	    
+    	    /** 返回 */
+    	    return $ret;
+        }
 		function getinfo ($pcn = NULL, $enabled = NULL, $limit = 0, $count = false)
 		{
 		    /** 查询 */
@@ -115,7 +127,6 @@
 			/** 返回 */
 			return $ret;
 		}
-		
 		function scan ()
 		{
 		    $pluginList = scandir (APP_PATH . '/Plugins');
