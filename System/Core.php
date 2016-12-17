@@ -62,10 +62,11 @@
             	array_shift ($mod);
             }
             
-            if ($module == '')
-                $controllerFile = CONTROLLER_PATH . '/' . $controller . '.class.php';
-            else
-                $controllerFile = CONTROLLER_PATH . '/' . $module . '/' . $controller . '.class.php';
+            $initFile = CONTROLLER_PATH . '/' . $module . '/Init.class.php';
+            $initExists = file_exists ($initFile);
+            $controllerFile = CONTROLLER_PATH . '/' . $module . '/' . $controller . '.class.php';
+            if ($initExists)
+                require_once $initFile;
             require_once $controllerFile;
             
             if ($needAction && isset ($mod[0]) && method_exists ($controller, $mod[0])) {
@@ -75,10 +76,15 @@
             $param = $mod;
             
             /** 分发 */
-            $controllerObject = new $controller ($controller, $action, $module, $param);
-            if (method_exists ($controller, 'init')) {
-            	$controllerObject->init ();
+            if ($initExists) {
+                $initObject = new Init ($controller, $action, $module, $param);
+                $initObject->run ();
+                if (method_exists ($initObject, $controller))
+                	$controllerObject->controller ();
             }
+            $controllerObject = new $controller ($controller, $action, $module, $param);
+            if (method_exists ($controller, 'init'))
+            	$controllerObject->init ();
             $controllerObject->$action ();
         }
 
