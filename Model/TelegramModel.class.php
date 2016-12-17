@@ -110,6 +110,9 @@
             }
             return $ret;
         }
+        public function getMaster () {
+            return MASTER;
+        }
         public function getReturn () {
             return $this->ret;
         }
