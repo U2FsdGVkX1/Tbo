@@ -64,6 +64,7 @@
 			
 			/** 返回 */
 			if ($_SERVER['REMOTE_ADDR'] == $ip) {
+			    $optionModel->update ('fastlogin_ip', '');
 			    $_SESSION['logined'] = true;
 			    exit (json_encode (array ('code' => 0)));
 			} else {
