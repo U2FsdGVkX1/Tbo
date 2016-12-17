@@ -17,7 +17,7 @@
 		    
 		    /** 授权登录 */
 		    if (FASTLOGIN) {
-		        if ($this->func == 'callback_query') {
+		        if (isset ($this->func) && $this->func == 'callback_query') {
 		            $callbackDataExplode = explode (' ', $this->param[0]);
 		            if ($callbackDataExplode[0] == 'fastLogin_allow') {
 		                $optionModel->update ('fastlogin_ip', $callbackDataExplode[1]);
