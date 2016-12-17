@@ -1,5 +1,6 @@
 <?php
     define ('BOTNAME', '');
     define ('TOKEN', '');
-    define ('MASTERNAME', '');
-    define ('DEBUG', false);
+    define ('MASTER', '');
+    define ('FASTLOGIN', false);
+    define ('DEBUG', true);

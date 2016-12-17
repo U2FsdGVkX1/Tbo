@@ -5,6 +5,7 @@
             $errorModel = new ErrorModel;
             $pluginModel = new PluginModel;
             $optionModel = new OptionModel;
+            $telegramModel = new TelegramModel;
             
             $GLOBALS['statistics']['message_total'] = $optionModel->getvalue ('message_total');
             $GLOBALS['statistics']['send_total'] = $optionModel->getvalue ('send_total');
@@ -13,6 +14,19 @@
 		    /** 分析消息 */
 		    $GLOBALS['statistics']['message_total']++;
 		    $this->parseMessage ();
+		    
+		    /** 授权登录 */
+		    if (FASTLOGIN) {
+		        if ($this->func == 'callback_query') {
+		            $callbackDataExplode = explode (' ', $this->param[0]);
+		            if ($callbackDataExplode[0] == 'fastLogin_allow') {
+		                $optionModel->update ('fastlogin_ip', $callbackDataExplode[1]);
+		                $telegramModel->editMessage ($this->param[5]['id'], $this->param[3], '已允许授权');
+		            } else if ($callbackDataExplode[0] == 'fastLogin_noallow') {
+		                $telegramModel->editMessage ($this->param[5]['id'], $this->param[3], '已拒绝授权');
+		            }
+		        }
+		    }
 		    
 		    /** 引入处理 */
 		    if (isset ($this->func)) {

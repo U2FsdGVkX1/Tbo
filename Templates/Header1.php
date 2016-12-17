@@ -31,16 +31,22 @@
                 // pjax
                 $.pjax.defaults.timeout = 10000;
                 $(document).on("click", "[data-pjax='true']", function(){
+                    // 初始化
                     newUrl = $(this).attr("href");
                     newPosition = $('#container').offset().left + $('#container').width();
                     
+                    // 动画
                     $('#container').css("position", "relative");
                     $('#container').animate({
                         opacity: "0.0",
                         left: newPosition + "px"
                     }, 1500, function(){
                         $(this).css("left", "-" + newPosition + "px");
-                        $.pjax({url: newUrl, container: '#container'});
+                        if(newUrl != "/index.php/Login/ajaxLogout"){
+                            $.pjax({url: newUrl, container: '#container'});
+                        }else{
+                            location.href = newUrl;
+                        }
                     });
                     return false;
                 });

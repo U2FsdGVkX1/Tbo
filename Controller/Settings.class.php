@@ -11,15 +11,21 @@
             }
         }
         function ajaxSave () {
+            /** 检查 */
+			if ($_POST['master'] == '' && $_POST['fastLogin'] == true) {
+				exit (json_encode (array ('code' => -1, 'msg' => '请设置主人 ID')));
+			}
+			
             /** 初始化 */
             $systemModel = new SystemModel;
             
             /** 保存配置文件 */
             $config = "<?php
-    define ('BOTNAME', '{$_POST['botName']}');
-    define ('TOKEN', '{$_POST['botToken']}');
-    define ('MASTERNAME', '{$_POST['masterName']}');
-    define ('DEBUG', {$_POST['debug']});
+    define ('BOTNAME', '" . addslashes ($_POST['botName']) . "');
+    define ('TOKEN', '" . addslashes ($_POST['botToken']) . "');
+    define ('MASTER', '" . addslashes ($_POST['master']) . "');
+    define ('FASTLOGIN', " . addslashes ($_POST['fastLogin']) . ");
+    define ('DEBUG', " . addslashes ($_POST['debug']) . ");
 ";
             file_put_contents (CONFIG_PATH . '/BotConfig.php', $config);
             

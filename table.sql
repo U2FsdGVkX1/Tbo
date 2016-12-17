@@ -17,3 +17,5 @@ INSERT INTO `options` (`name`, `value`) VALUES
 ('send_total', '0');
 INSERT INTO `options` (`name`, `value`) VALUES
 ('error_total', '0');
+INSERT INTO `options` (`name`, `value`) VALUES
+('fastlogin_ip', '');

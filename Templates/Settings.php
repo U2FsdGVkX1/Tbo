@@ -12,7 +12,7 @@
     <div class="col-xs-12" style="margin-top: 10px">
         <div class="input-group">
             <span class="input-group-addon" id="botName">Bot 名称</span>
-            <input id="botName" type="text" class="form-control" aria-describedby="botName" value="<?php echo BOTNAME ?>">
+            <input id="botName" type="text" class="form-control" placeholder="机器人的 Username（不是显示出来的名称" aria-describedby="botName" value="<?php echo BOTNAME ?>">
             <span class="input-group-btn">
                 <button id="getUsername" class="btn btn-secondary" type="button">自动获取 Bot 名称</button>
             </span>
@@ -20,15 +20,19 @@
         <br>
         <div class="input-group">
             <span class="input-group-addon" id="botToken">Token</span>
-            <input id="botToken" type="text" class="form-control" aria-describedby="botToken" value="<?php echo TOKEN ?>">
+            <input id="botToken" type="text" class="form-control" placeholder="机器人のToken" aria-describedby="botToken" value="<?php echo TOKEN ?>">
             <span class="input-group-btn">
                 <button id="setWebhook" class="btn btn-secondary" type="button">重新设置 Bot 回调</button>
             </span>
         </div>
         <br>
         <div class="input-group">
-            <span class="input-group-addon" id="masterName">主人名称</span>
-            <input id="masterName" type="text" class="form-control" aria-describedby="masterName" value="<?php echo MASTERNAME ?>">
+            <span class="input-group-addon" id="master">主人 ID</span>
+            <input id="master" type="text" class="form-control" placeholder="可通过启用 Whoami 插件之后向机器人发送 /whoami 获取" aria-describedby="master" value="<?php echo MASTER ?>">
+            <span class="input-group-addon">
+                <input id="fastLogin" type="checkbox" <?php if (FASTLOGIN) echo 'checked' ?>>
+                开启快速登录
+            </span>
         </div>
         <br>
         <div class="input-group">
@@ -61,19 +65,22 @@
             data: {
                 "botName": $("input#botName").val(),
                 "botToken": $("input#botToken").val(),
-                "masterName": $("input#masterName").val(),
+                "master": $("input#master").val(),
                 "password": $("input#password").val(),
+                "fastLogin": $("input#fastLogin").prop("checked"),
                 "debug": $("input#debug").prop("checked")
             },
             success: function(data, textStatus, jqXHR){
+                textOld = $(buttonThis).text();
                 if(data.code == '0'){
-                    textOld = $(buttonThis).text();
                     $(buttonThis).text("设置已保存");
-                    setTimeout(function(){
-                        $(buttonThis).text(textOld);
-                        $(buttonThis).removeAttr("disabled");
-                    }, 2000);
+                }else{
+                    $(buttonThis).text("失败：" + data.msg);
                 }
+                setTimeout(function(){
+                    $(buttonThis).text(textOld);
+                    $(buttonThis).removeAttr("disabled");
+                }, 2000);
             },
             dataType: "json"
         });
