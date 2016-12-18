@@ -30,6 +30,9 @@
         public function callback_query ($callback_data, $callback_id, $callback_from, $message_id, $from, $chat, $date) {
             
         }
+        public function inline_query ($query, $offset, $inline_id, $from) {
+            
+        }
         public function new_member ($new_member, $message_id, $from, $chat, $date) {
             
         }

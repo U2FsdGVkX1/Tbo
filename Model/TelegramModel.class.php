@@ -1,6 +1,7 @@
 <?php
     class TelegramModel extends FLModel {
         private $ret;
+        private static $inlineResults = array ();
         
         public function __construct ($token = NULL) {
         	$this->token = $token;
@@ -90,6 +91,19 @@
                 'reply_markup' => $reply_markup
             ]);
             return $this->ret['result']['message_id'];
+        }
+        public function sendInlineQuery ($results) {
+            self::$inlineResults = array_merge (self::$inlineResults, $results);
+        }
+        public function sendInline ($inline_id, $cache_time = 600, $offset = '', $switch_pm_parameter = '') {
+            $this->ret = $this->callMethod ('answerInlineQuery', [
+                'inline_query_id' => $inline_id,
+                'results' => json_encode (self::$inlineResults),
+                'cache_time' => $cache_time,
+                'next_offset' => $offset,
+                'switch_pm_parameter' => $switch_pm_parameter
+            ]);
+            return $this->ret;
         }
         public function getChatAdmin ($chat_id) {
             $this->ret = $this->callMethod ('getChatAdministrators', [

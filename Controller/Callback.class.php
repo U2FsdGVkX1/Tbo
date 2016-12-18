@@ -52,6 +52,9 @@
     		        if (isset ($cuPlugin))
     		            unset ($cuPlugin);
 		        }
+		        if ($this->func == 'inline_query') {
+		            $telegramModel->sendInline ($this->param[2]);
+		        }
 		    }
 		    
 		    /** 统计 */
@@ -153,6 +156,20 @@
 		            $data['callback_query']['from'],
 		            $data['callback_query']['message']['chat'],
 		            $data['callback_query']['message']['date']
+		        ];
+		    } else if (isset ($data['inline_query'])) {
+		        $func = 'inline_query';
+		        $param = [
+		            $data['inline_query']['query'],
+		            $data['inline_query']['offset'],
+		            $data['inline_query']['id'],
+		            $data['inline_query']['from']
+		        ];
+		        $initParam = [
+		            $func,
+		            $data['inline_query']['from'],
+		            $data['inline_query']['from'],
+		            time ()
 		        ];
 		    }
 		    
