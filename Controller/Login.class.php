@@ -1,10 +1,7 @@
 <?php
     class Login extends FLController {
         function run () {
-            if ($_SESSION['logined'] == true) {
-                header ('Location: ' . APP_URL . '/index.php/Index');
-                exit ();
-            }
+            $_SESSION['logined'] = false;
             $this->view->render ();
         }
         function ajaxLogin () {

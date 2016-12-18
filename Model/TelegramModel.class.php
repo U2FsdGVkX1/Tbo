@@ -46,7 +46,8 @@
             return $this->ret;
         }
         public function sendMessage ($chat_id, $text, $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
-            $GLOBALS['statistics']['send_total']++;
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendMessage', [
                 'chat_id' => $chat_id,
                 'text' => $text,
@@ -67,7 +68,8 @@
             return $this->ret['result']['message_id'];
         }
         public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
-            $GLOBALS['statistics']['send_total']++;
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendPhoto', [
                 'chat_id' => $chat_id,
                 'photo' => $photo,
@@ -78,7 +80,8 @@
             return $this->ret['result']['message_id'];
         }
         public function sendAudio ($chat_id, $audio, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
-            $GLOBALS['statistics']['send_total']++;
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendAudio', [
                 'chat_id' => $chat_id,
                 'audio' => $audio,
