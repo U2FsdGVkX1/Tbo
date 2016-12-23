@@ -77,7 +77,7 @@
             /** 安装 */
             $pluginList = $pluginModel->scan ();
             foreach ($pluginList as $pluginList_d) {
-            	$pluginModel->install ($pluginList_d);
+                $pluginModel->install ($pluginList_d);
             }
             
             /** 返回 */
@@ -90,7 +90,7 @@
             /** 卸载 */
             $pluginList = $pluginModel->getinfo ();
             foreach ($pluginList as $pluginList_d) {
-            	$pluginModel->uninstall ($pluginList_d['pcn']);
+                $pluginModel->uninstall ($pluginList_d['pcn']);
             }
             
             /** 返回 */
@@ -103,7 +103,7 @@
             /** 启用 */
             $pluginList = $pluginModel->getinfo ();
             foreach ($pluginList as $pluginList_d) {
-            	$pluginModel->enable ($pluginList_d['pcn']);
+                $pluginModel->enable ($pluginList_d['pcn']);
             }
             
             /** 返回 */
@@ -116,7 +116,7 @@
             /** 禁用 */
             $pluginList = $pluginModel->getinfo ();
             foreach ($pluginList as $pluginList_d) {
-            	$pluginModel->disable ($pluginList_d['pcn']);
+                $pluginModel->disable ($pluginList_d['pcn']);
             }
             
             /** 返回 */
@@ -136,10 +136,10 @@
             
             /** 返回 */
             if ($pluginSettingsContents !== NULL) {
-				exit (json_encode (array ('code' => 0, 'contents' => $pluginSettingsContents)));
-			} else {
-				exit (json_encode (array ('code' => -1, 'msg' => '该插件没有设置')));
-			}
+                exit (json_encode (array ('code' => 0, 'contents' => $pluginSettingsContents)));
+            } else {
+                exit (json_encode (array ('code' => -1, 'msg' => '该插件没有设置')));
+            }
         }
         function callback () {
             /** 检查 */
@@ -155,10 +155,10 @@
             
             /** 返回 */
             if ($ret == '') {
-				exit (json_encode (array ('code' => 0)));
-			} else {
-				exit (json_encode (array ('code' => -1, 'msg' => $ret)));
-			}
+                exit (json_encode (array ('code' => 0)));
+            } else {
+                exit (json_encode (array ('code' => -1, 'msg' => $ret)));
+            }
         }
         function remove () {
             /** 检查 */

@@ -20,19 +20,19 @@
             foreach ($exception->getTrace () as $i => $ep_d) {
                 $errMsg .= '在 ' . $ep_d['file'] . ' 的第 ' . $ep_d['line'] . ' 行发生了一个异常：' . "\n";
                 if (!empty ($ep_d['class'])) {
-					$errMsg .= $ep_d['class'] . '->';
-				}
-				if (!empty ($ep_d['function'])) {
-				    $errMsg .= $ep_d['function'] . ' ';
-				    $errMsg .= '(';
-					
-					if (!empty ($ep_d['args'])) {
-						$errMsg .= var_export ($ep_d['args'], true);
-					}
-					
-					$errMsg .= ')';
-				}
-				$errMsg .= "\n";
+                    $errMsg .= $ep_d['class'] . '->';
+                }
+                if (!empty ($ep_d['function'])) {
+                    $errMsg .= $ep_d['function'] . ' ';
+                    $errMsg .= '(';
+                    
+                    if (!empty ($ep_d['args'])) {
+                        $errMsg .= var_export ($ep_d['args'], true);
+                    }
+                    
+                    $errMsg .= ')';
+                }
+                $errMsg .= "\n";
             }
             $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
         }
@@ -46,12 +46,12 @@
                 ];
                 
                 $ch = curl_init ();
-        		curl_setopt ($ch, CURLOPT_URL, $url);
-        		curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata);
-        		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
-        		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-        		$re = curl_exec ($ch);
-        		curl_close ($ch);
+                curl_setopt ($ch, CURLOPT_URL, $url);
+                curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+                $re = curl_exec ($ch);
+                curl_close ($ch);
             }
         }
         private function checkPlugin () {

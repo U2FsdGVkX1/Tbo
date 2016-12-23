@@ -19,7 +19,7 @@
             $this->urlmode = $urlmode;
             spl_autoload_register (array ($this, 'autoload'));
             if (!defined ('NOROUTE'))
-            	$this->route ();
+                $this->route ();
         }
 
         /**
@@ -28,7 +28,7 @@
          * @return void
          */
         public function route () {
-        	/** 初始化变量 */
+            /** 初始化变量 */
             $module = '';
             $controller = 'Index';
             $action = 'run';
@@ -53,13 +53,13 @@
             
             /** 处理变量 */
             if (isset ($mod[0]) && is_dir (CONTROLLER_PATH . '/' . ucfirst ($mod[0]))) {
-            	$module = ucfirst ($mod[0]);
+                $module = ucfirst ($mod[0]);
                 array_shift ($mod);
             }
             if (isset ($mod[0]) && file_exists (CONTROLLER_PATH . '/' . $module . '/' . ucfirst ($mod[0]) . '.class.php')) {
-            	$needAction = true;
-            	$controller = ucfirst ($mod[0]);
-            	array_shift ($mod);
+                $needAction = true;
+                $controller = ucfirst ($mod[0]);
+                array_shift ($mod);
             }
             
             $initFile = CONTROLLER_PATH . '/' . $module . '/Init.class.php';
@@ -70,8 +70,8 @@
             require_once $controllerFile;
             
             if ($needAction && isset ($mod[0]) && method_exists ($controller, $mod[0])) {
-            	$action = $mod[0];
-            	array_shift ($mod);
+                $action = $mod[0];
+                array_shift ($mod);
             }
             $param = $mod;
             
@@ -80,11 +80,11 @@
                 $initObject = new Init ($controller, $action, $module, $param);
                 $initObject->run ();
                 if (method_exists ($initObject, $controller))
-                	$controllerObject->controller ();
+                    $controllerObject->controller ();
             }
             $controllerObject = new $controller ($controller, $action, $module, $param);
             if (method_exists ($controller, 'init'))
-            	$controllerObject->init ();
+                $controllerObject->init ();
             $controllerObject->$action ();
         }
 

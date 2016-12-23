@@ -12,10 +12,10 @@
         }
         function ajaxSave () {
             /** 检查 */
-			if ($_POST['master'] == '' && $_POST['fastLogin'] == true) {
-				exit (json_encode (array ('code' => -1, 'msg' => '请设置主人 ID')));
-			}
-			
+            if ($_POST['master'] == '' && $_POST['fastLogin'] == true) {
+                exit (json_encode (array ('code' => -1, 'msg' => '请设置主人 ID')));
+            }
+            
             /** 初始化 */
             $systemModel = new SystemModel;
             
@@ -38,11 +38,11 @@
             exit (json_encode (array ('code' => 0)));
         }
         function setWebhook () {
-        	/** 检查 */
-			if (empty ($_POST['botToken'])) {
-				exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
-			}
-			
+            /** 检查 */
+            if (empty ($_POST['botToken'])) {
+                exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
+            }
+            
             /** 初始化 */
             $telegramModel = new TelegramModel($_POST['botToken']);
             $newurl = 'https://' . $_SERVER['SERVER_NAME'] . APP_URL . '/index.php/Callback';
@@ -58,11 +58,11 @@
             }
         }
         function getUsername () {
-        	/** 检查 */
-        	if (empty ($_POST['botToken'])) {
-				exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
-			}
-			
+            /** 检查 */
+            if (empty ($_POST['botToken'])) {
+                exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
+            }
+            
             /** 初始化 */
             $telegramModel = new TelegramModel($_POST['botToken']);
             
