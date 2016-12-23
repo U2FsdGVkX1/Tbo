@@ -105,6 +105,9 @@
             ]);
             return $this->ret;
         }
+        public function getInlineId () {
+            return hash ('sha256', uniqid (mt_rand (), true));
+        }
         public function getChatAdmin ($chat_id) {
             $this->ret = $this->callMethod ('getChatAdministrators', [
                 'chat_id' => $chat_id
