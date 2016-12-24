@@ -29,25 +29,33 @@
                             <div class="card card-block" data-pcn="<?php echo $pluginList_d ?>">
                                 <h4 class="card-title">
                                     <?php
-                                        if (!isset ($pluginInfo_f['PluginName'])) {
-                                            $pluginInfo_f['PluginName'] = '无名称';
-                                        }
-                                        if (isset ($pluginInfo_f['PluginURL'])) {
+                                        if (isset ($pluginInfo_f['PluginName']) && isset ($pluginInfo_f['PluginURL'])) {
                                             echo '<a target="_blank" href="' . $pluginInfo_f['PluginURL'] . '">' . $pluginInfo_f['PluginName'] . '</a>';
                                         } else {
-                                            echo $pluginInfo_f['PluginName'];
+                                            if (isset ($pluginInfo_f['PluginName'])) {
+                                                echo $pluginInfo_f['PluginName'];
+                                            } else {
+                                                echo $pluginList_d;
+                                            }
                                         }
                                         
-                                        echo ' - ';
-                                        echo $pluginList_d;
+                                        if (isset ($pluginInfo_f['Author'])) {
+                                            echo ' - ';
+                                            if (isset ($pluginInfo_f['AuthorURL'])) {
+                                                echo '<a target="_blank" href="' . $pluginInfo_f['AuthorURL'] . '">' . $pluginInfo_f['Author'] . '</a>';
+                                            } else {
+                                                echo $pluginInfo_f['Author'];
+                                            }
+                                        }
                                     ?>
                                 </h4>
                                 <p class="card-text">
                                     <?php
-                                        if (!isset ($pluginInfo_f['Description'])) {
-                                            $pluginInfo_f['Description'] = '无描述';
+                                        if (isset ($pluginInfo_f['Description'])) {
+                                            echo $pluginInfo_f['Description'];
+                                        } else {
+                                            echo '无描述';
                                         }
-                                        echo $pluginInfo_f['Description'];
                                     ?>
                                     <p class="lastError">
                                         <?php
@@ -62,16 +70,6 @@
                                 </p>
                                 <div style="float: right">
                                     <?php
-                                        if (!isset ($pluginInfo_f['Author'])) {
-                                            $pluginInfo_f['Author'] = '无作者';
-                                        }
-                                        if (isset ($pluginInfo_f['AuthorURL'])) {
-                                            echo '<a target="_blank" href="' . $pluginInfo_f['AuthorURL'] . '">' . $pluginInfo_f['Author'] . '</a>';
-                                        } else {
-                                            echo $pluginInfo_f['Author'];
-                                        }
-                                    ?>
-                                    <?php
                                         if ($pluginEnabledSub === NULL) {
                                             ?>
                                                 <button id="install" type="button" class="btn btn-success">安装插件</button>
@@ -85,7 +83,8 @@
                                                 <?php
                                             } else {
                                                 ?>
-                                                    <button id="settings" type="button" class="btn btn-info" data-toggle="modal" data-target="#pluginSettings">设置插件</button>
+                                                    <button id="priority" type="button" class="btn btn-secondary">优先级：<?php echo $pluginEnabledList[$pluginEnabledSub]['priority'] ?></button>
+                                                	<button id="settings" type="button" class="btn btn-info" data-toggle="modal" data-target="#pluginSettings">设置插件</button>
                                                     <button id="disable" type="button" class="btn btn-warning">禁用插件</button>
                                                 <?php
                                             }
@@ -111,24 +110,24 @@
     </div>
 </div> 
 <div id="pluginSettings" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby=".bd-example-modal-lg" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">关闭</span>
-                </button>
-                <h4 id="pluginSettingsTitle" class="modal-title">插件设置</h4>
-            </div>
-            <div class="modal-body">
-                <div id="pluginSettingsContents">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button onclick="saveSettings()" type="button" class="btn btn-primary">保存设置</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">关闭</span>
+				</button>
+				<h4 id="pluginSettingsTitle" class="modal-title">插件设置</h4>
+			</div>
+			<div class="modal-body">
+				<div id="pluginSettingsContents">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button onclick="saveSettings()" type="button" class="btn btn-primary">保存设置</button>
+			</div>
+		</div>
+	</div>
 </div>
 <style>
     .lastError {
@@ -163,10 +162,40 @@
             dataType: "json"
         });
     });
-    $("button#settings").click(function(){
-        buttonThis = $(this);
+    $("button#priority").click(function(){
+        defaultInput = "(; ´_ゝ`) 你猜啊";
+        newPriority = prompt("( ´･∀･｀) 请问这个插件的新优先级是？", defaultInput);
+        if(newPriority == defaultInput){
+            alert("猜nmb");
+            return false;
+        }
         
+        buttonThis = $(this);
+        $.ajax({
+            type: "POST",
+            url: "<?php echo APP_URL ?>/index.php/plugins/priority",
+            data: {
+                "pcn": pcn,
+                "newPriority": newPriority
+            },
+            success: function(data, textStatus, jqXHR){
+                if(data.code == '0'){
+                    location.reload();
+                }else{
+                    textOld = $(buttonThis).text();
+                    $(buttonThis).text(data.msg);
+                    setTimeout(function(){
+                        $(buttonThis).text(textOld);
+                        $(buttonThis).removeAttr("disabled");
+                    }, 2000);
+                }
+            },
+            dataType: "json"
+        });
+    });
+    $("button#settings").click(function(){
         $("h4#pluginSettingsTitle").text(pcn + " 设置");
+        buttonThis = $(this);
         $.ajax({
             type: "POST",
             url: "<?php echo APP_URL ?>/index.php/plugins/settings",
