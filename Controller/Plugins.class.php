@@ -138,7 +138,7 @@
             if ($pluginSettingsContents !== NULL) {
                 exit (json_encode (array ('code' => 0, 'contents' => $pluginSettingsContents)));
             } else {
-                exit (json_encode (array ('code' => -1, 'msg' => '该插件没有设置')));
+                exit (json_encode (array ('code' => -1, 'msg' => '无设置')));
             }
         }
         function callback () {

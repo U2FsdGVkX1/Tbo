@@ -30,7 +30,7 @@
                                 <h4 class="card-title">
                                     <?php
                                         if (!isset ($pluginInfo_f['PluginName'])) {
-                                            $pluginInfo_f['PluginName'] = '没有名称';
+                                            $pluginInfo_f['PluginName'] = '无名称';
                                         }
                                         if (isset ($pluginInfo_f['PluginURL'])) {
                                             echo '<a target="_blank" href="' . $pluginInfo_f['PluginURL'] . '">' . $pluginInfo_f['PluginName'] . '</a>';
@@ -45,7 +45,7 @@
                                 <p class="card-text">
                                     <?php
                                         if (!isset ($pluginInfo_f['Description'])) {
-                                            $pluginInfo_f['Description'] = '没有描述';
+                                            $pluginInfo_f['Description'] = '无描述';
                                         }
                                         echo $pluginInfo_f['Description'];
                                     ?>
@@ -63,7 +63,7 @@
                                 <div style="float: right">
                                     <?php
                                         if (!isset ($pluginInfo_f['Author'])) {
-                                            $pluginInfo_f['Author'] = '没有作者';
+                                            $pluginInfo_f['Author'] = '无作者';
                                         }
                                         if (isset ($pluginInfo_f['AuthorURL'])) {
                                             echo '<a target="_blank" href="' . $pluginInfo_f['AuthorURL'] . '">' . $pluginInfo_f['Author'] . '</a>';
