@@ -10,9 +10,10 @@
 
 为了保证 Tbo 正常运行，建议安装到符合以下条件的环境
 
-1. PHP 滋辞 [PDO](https://php.net/manual/zh/ref.pdo-mysql.php)
+1. 滋辞 [PDO](https://php.net/manual/zh/ref.pdo-mysql.php)
 2. 滋辞 [pathinfo](https://github.com/U2FsdGVkX1/Tbo/wiki/%E5%BC%80%E5%90%AF-pathinfo-%E7%9A%84%E6%BB%8B%E8%BE%9E)
-3. PHP >= 5.4
+3. 滋辞 https（强烈建议使用 [Let'sencrypt](https://letsencrypt.org)）
+4. PHP >= 5.4
 
 ---
 
