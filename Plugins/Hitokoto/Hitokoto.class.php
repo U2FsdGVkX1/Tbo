@@ -1,4 +1,13 @@
 <?php
+    /*
+    -----BEGIN INFO-----
+    @PluginName 一言插件
+    @Description 发送 /hitokoto 即可膜蛤
+    @Author U2FsdGVkX1
+    @AuthorEmail U2FsdGVkX1@gmail.com
+    @Version 1.0
+    -----END INFO-----
+    */
     class Hitokoto extends Base {
         private $data = array ();
         
