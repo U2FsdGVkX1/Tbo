@@ -7,7 +7,7 @@ CREATE TABLE `plugins` (
   `pcn` char(255) DEFAULT NULL,
   `enabled` int(1) DEFAULT NULL,
   `lasterror` int DEFAULT NULL,
-  `priority` int DEFAULT NULL,
+  `priority` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `options` (`name`, `value`) VALUES
