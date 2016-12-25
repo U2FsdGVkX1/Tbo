@@ -1,8 +1,8 @@
 <?php
     /*
     -----BEGIN INFO-----
-    @PluginName 必应美图插件
-    @Description 发送 /bing 即可查看美♂图
+    @PluginName 必应美图
+    @Description 发送/bing即可查看美♂图
     @Author U2FsdGVkX1
     @AuthorEmail U2FsdGVkX1@gmail.com
     @Version 1.0
