@@ -1,4 +1,13 @@
 <?php
+    /*
+    -----BEGIN INFO-----
+    @PluginName 必应美图插件
+    @Description 发送 /bing 即可查看美♂图
+    @Author U2FsdGVkX1
+    @AuthorEmail U2FsdGVkX1@gmail.com
+    @Version 1.0
+    -----END INFO-----
+    */
     class Bing extends Base {
         public function command ($command, $param, $message_id, $from, $chat, $date) {
             if ($command == '/bing') {
