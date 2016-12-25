@@ -8,6 +8,14 @@
 
 ---
 
+为了保证 Tbo 正常运行，建议安装到符合以下条件的环境
+
+1. PHP 滋辞 PDO
+2. 滋辞 pathinfo
+3. PHP >= 5.4
+
+---
+
 Tbo 使用了以下开源项目，感谢它们的贡献：
 
 [FrameLite](https://github.com/U2FsdGVkX1/FrameLite)
