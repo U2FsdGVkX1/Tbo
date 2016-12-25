@@ -1,7 +1,7 @@
 <?php
     /*
     -----BEGIN INFO-----
-    @PluginName 一言插件
+    @PluginName 一言
     @Description 发送/hitokoto即可膜蛤
     @Author U2FsdGVkX1
     @AuthorEmail U2FsdGVkX1@gmail.com
