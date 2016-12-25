@@ -6,6 +6,8 @@
 
 这是一个更友好、更强大、更轻巧、<del>更多 bug</del> 的框架
 
+PS：[真正的粉丝群](https://telegram.me/TboJiangGroup)
+
 ---
 
 为了保证 Tbo 正常运行，建议安装到符合以下条件的环境
