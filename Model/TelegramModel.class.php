@@ -4,28 +4,28 @@
         private static $inlineResults = array ();
         
         public function __construct ($token = NULL) {
-        	$this->token = $token;
-        	parent::__construct ();
+            $this->token = $token;
+            parent::__construct ();
         }
         private function fetch ($url, $postdata = null) {
-    		$ch = curl_init ();
-    		curl_setopt ($ch, CURLOPT_URL, $url);
-    		if (!is_null ($postdata)) {
-    			curl_setopt ($ch, CURLOPT_POSTFIELDS, http_build_query ($postdata));
-    		}
-    		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
-    		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-    		$re = curl_exec ($ch);
-    		curl_close ($ch);
-    		
-    		return $re;
-    	}
-    	protected function callMethod ($method, $param = array (), $detection = true) {
-    	    /** 初始化变量 */
-    	    if ($this->token === NULL) {
-            	$url = 'https://api.telegram.org/bot' . TOKEN . '/' . $method;
+            $ch = curl_init ();
+            curl_setopt ($ch, CURLOPT_URL, $url);
+            if (!is_null ($postdata)) {
+                curl_setopt ($ch, CURLOPT_POSTFIELDS, http_build_query ($postdata));
+            }
+            curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+            $re = curl_exec ($ch);
+            curl_close ($ch);
+            
+            return $re;
+        }
+        protected function callMethod ($method, $param = array (), $detection = true) {
+            /** 初始化变量 */
+            if ($this->token === NULL) {
+                $url = 'https://api.telegram.org/bot' . TOKEN . '/' . $method;
             } else {
-            	$url = 'https://api.telegram.org/bot' . $this->token . '/' . $method;
+                $url = 'https://api.telegram.org/bot' . $this->token . '/' . $method;
             }
             
             /** 访问网页 */
@@ -39,8 +39,8 @@
             
             /** 返回 */
             return $ret;
-    	}
-    	public function setWebhook ($newurl) {
+        }
+        public function setWebhook ($newurl) {
             $this->ret = $this->callMethod ('setWebhook', [
                 'url' => $newurl
             ], false);
