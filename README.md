@@ -16,6 +16,7 @@ PS：[真正的粉丝群](https://telegram.me/TboJiangGroup)
 2. 滋辞 [pathinfo](https://github.com/U2FsdGVkX1/Tbo/wiki/%E5%BC%80%E5%90%AF-pathinfo-%E7%9A%84%E6%BB%8B%E8%BE%9E)
 3. 滋辞 https（强烈建议使用 [Let's Encrypt](https://letsencrypt.org)）
 4. PHP >= 5.4
+5. 确保服务器能够访问到 Telegram（所以就不要使用国内的服务器了）
 
 ---
 
