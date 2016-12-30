@@ -18,6 +18,8 @@ PS：[真正的粉丝群](https://telegram.me/TboJiangGroup)
 4. PHP >= 5.4
 5. 确保服务器能够访问到 Telegram（所以就不要使用国内的服务器了）
 
+[安装过程](https://github.com/U2FsdGVkX1/Tbo/wiki/%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B)
+
 ---
 
 Tbo 使用了以下开源项目，感谢它们的贡献：
