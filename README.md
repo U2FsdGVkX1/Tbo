@@ -36,3 +36,11 @@ Tbo 使用了以下开源项目，感谢它们的贡献：
 [Ace](https://github.com/ajaxorg/ace)
 
 [jquery-pjax](https://github.com/defunkt/jquery-pjax)
+
+---
+
+感谢他们建议反馈以及精神支持，使得 Tbo 更加强大（<del>更多 bug<del>）
+
+[JclMiku](https://github.com/JclMiku)
+
+[Guoguo](https://github.com/imguoguo)
