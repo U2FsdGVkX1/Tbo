@@ -39,7 +39,7 @@ Tbo 使用了以下开源项目，感谢它们的贡献：
 
 ---
 
-感谢他们建议反馈以及精神支持，使得 Tbo 更加强大（<del>更多 bug<del>）
+感谢他们建议反馈以及精神支持，使得 Tbo 更加强大（<del>更多 bug</del>）
 
 [JclMiku](https://github.com/JclMiku)
 
