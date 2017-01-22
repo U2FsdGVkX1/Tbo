@@ -32,7 +32,7 @@
             $ret = json_decode ($this->fetch ($url, $param), true);
             
             /** 分析结果 */
-            if ($ret['ok'] == false && $detection == true) {
+            if ($ret['ok'] == false && $ret['error_code'] != 403 && $detection == true) {
                 $errorModel = new ErrorModel;
                 $errorModel->sendError ('-1001078722237', '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
             }
