@@ -1,5 +1,13 @@
 <?php
     $pjax = isset ($_SERVER['HTTP_X_PJAX']);
+    if ($pjax == true) {
+        ?>
+        <script>
+            location.reload();
+        </script>
+        <?php
+        exit ();
+    }
 ?>
 <?php if ($pjax == false) require_once 'Header1.php' ?>
 <title>登录</title>

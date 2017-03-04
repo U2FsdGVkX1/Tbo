@@ -20,7 +20,7 @@
                 });
                 $("a#menu").click(function(){
                     $(this).parent().addClass("active");
-                    if(typeof(oldMenu) != "undefined"){
+                    if(typeof oldMenu != "undefined"){
                         oldMenu.parent().removeClass("active");
                     }
                     oldMenu = $(this);
@@ -42,13 +42,12 @@
                         left: newPosition + "px"
                     }, 1500, function(){
                         $(this).css("left", "-" + newPosition + "px");
-                        if(newUrl != "/index.php/Login/ajaxLogout"){
-                            $.pjax({url: newUrl, container: '#container'});
-                        }else{
-                            location.href = newUrl;
-                        }
+                        $.pjax({url: newUrl, container: '#container'});
                     });
                     return false;
+                });
+                $(document).on('pjax:success', function(data){
+                    
                 });
                 $(document).on('pjax:end', function(){
                     $('#container').animate({
