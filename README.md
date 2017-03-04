@@ -1,12 +1,10 @@
 ## Tbo
 
-<del>强行 copy 介绍</del>
-
----
-
 这是一个更友好、更强大、更轻巧、<del>更多 bug</del> 的框架
 
 PS：[真正的粉丝群](https://telegram.me/TboJiangGroup)
+
+PSS：[开发文档](https://github.com/U2FsdGVkX1/Tbo/wiki)
 
 ---
 
@@ -16,6 +14,10 @@ PS：[真正的粉丝群](https://telegram.me/TboJiangGroup)
 2. 滋辞 [pathinfo](https://github.com/U2FsdGVkX1/Tbo/wiki/%E5%BC%80%E5%90%AF-pathinfo-%E7%9A%84%E6%BB%8B%E8%BE%9E)
 3. 滋辞 https（强烈建议使用 [Let's Encrypt](https://letsencrypt.org)）
 4. PHP >= 5.4
+5. 确保服务器能够访问到 Telegram（所以就不要使用国内的服务器了）
+6. Config 目录拥有写权限
+
+[安装过程](https://github.com/U2FsdGVkX1/Tbo/wiki/%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B)
 
 ---
 
@@ -34,3 +36,13 @@ Tbo 使用了以下开源项目，感谢它们的贡献：
 [Ace](https://github.com/ajaxorg/ace)
 
 [jquery-pjax](https://github.com/defunkt/jquery-pjax)
+
+---
+
+感谢他们建议反馈以及精神支持，使得 Tbo 更加强大（<del>更多 bug</del>）
+
+[JclMiku](https://github.com/JclMiku)
+
+[Guoguo](https://github.com/imguoguo)
+
+<del>PS：实际情况是因为他们闲着没事干，所以我把他们拽过来了</del>
