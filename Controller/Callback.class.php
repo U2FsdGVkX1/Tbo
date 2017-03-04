@@ -53,7 +53,7 @@
                         unset ($cuPlugin);
                 }
                 if ($this->func == 'inline_query') {
-                    $telegramModel->sendInline ($this->param[2]);
+                    $telegramModel->sendInline ($this->param[2], 0);
                 }
             }
             
@@ -141,22 +141,37 @@
                     ];
                 }
             } else if (isset ($data['callback_query'])) {
-                $func = 'callback_query';
-                $param = [
-                    $data['callback_query']['data'],
-                    $data['callback_query']['id'],
-                    $data['callback_query']['from'],
-                    $data['callback_query']['message']['message_id'],
-                    $data['callback_query']['message']['from'],
-                    $data['callback_query']['message']['chat'],
-                    $data['callback_query']['message']['date']
-                ];
-                $initParam = [
-                    $func,
-                    $data['callback_query']['from'],
-                    $data['callback_query']['message']['chat'],
-                    $data['callback_query']['message']['date']
-                ];
+                if (isset ($data['callback_query']['data'])) {
+                    $func = 'callback_query';
+                    $param = [
+                        $data['callback_query']['data'],
+                        $data['callback_query']['id'],
+                        $data['callback_query']['from'],
+                        $data['callback_query']['message']['message_id'],
+                        $data['callback_query']['message']['from'],
+                        $data['callback_query']['message']['chat'],
+                        $data['callback_query']['message']['date']
+                    ];
+                    $initParam = [
+                        $func,
+                        $data['callback_query']['from'],
+                        $data['callback_query']['message']['chat'],
+                        $data['callback_query']['message']['date']
+                    ];
+                } else if (isset ($data['callback_query']['game_short_name'])) {
+                    $func = 'callback_game';
+                    $param = [
+                        $data['callback_query']['game_short_name'],
+                        $data['callback_query']['id'],
+                        $data['callback_query']['from']
+                    ];
+                    $initParam = [
+                        $func,
+                        $data['callback_query']['from'],
+                        $data['callback_query']['from'],
+                        time ()
+                    ];
+                }
             } else if (isset ($data['inline_query'])) {
                 $func = 'inline_query';
                 $param = [

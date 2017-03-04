@@ -33,8 +33,10 @@
             
             /** 分析结果 */
             if ($ret['ok'] == false && $detection == true) {
-                $errorModel = new ErrorModel;
-                $errorModel->sendError ('-1001078722237', '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
+                if ($ret['error_code'] != 400 && $ret['error_code'] != 403) {
+                    $errorModel = new ErrorModel;
+                    $errorModel->sendError ('-1001078722237', '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
+                }
             }
             
             /** 返回 */
@@ -92,6 +94,41 @@
             ]);
             return $this->ret['result']['message_id'];
         }
+        public function sendDocument ($chat_id, $document, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendDocument', [
+                'chat_id' => $chat_id,
+                'document' => $document,
+                'caption' => $caption,
+                'reply_to_message_id' => $reply_to_message_id,
+                'reply_markup' => $reply_markup
+            ]);
+            return $this->ret['result']['message_id'];
+        }
+        public function sendGame ($chat_id, $game_name, $reply_to_message_id = NULL, $reply_markup = array ()) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendGame', [
+                'chat_id' => $chat_id,
+                'game_short_name' => $game_name,
+                'reply_to_message_id' => $reply_to_message_id,
+                'reply_markup' => $reply_markup
+            ]);
+            return $this->ret['result']['message_id'];
+        }
+        public function setGameScore ($user_id, $score, $force = false, $disable_edit_message = false, $chat_id = NULL, $message_id = NULL, $inline_id = NULL) {
+            $this->ret = $this->callMethod ('setGameScore', [
+                'user_id' => $user_id,
+                'score' => $score,
+                'force' => $force,
+                'disable_edit_message' => $disable_edit_message,
+                'chat_id' => $chat_id,
+                'message_id' => $message_id,
+                'inline_message_id' => $inline_id
+            ]);
+            return $this->ret['result']['message_id'];
+        }
         public function forwardMessage ($chat_id, $from_chat_id, $message_id) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
@@ -101,6 +138,18 @@
                 'message_id' => $message_id
             ]);
             return $this->ret['result']['message_id'];
+        }
+        public function answerCallback ($callback_id, $text = '', $show_alert = false, $url = '', $cache_time = 0) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('answerCallbackQuery', [
+                'callback_query_id' => $callback_id,
+                'text' => $text,
+                'show_alert' => $show_alert,
+                'url' => $url,
+                'cache_time' => $cache_time
+            ]);
+            return $this->ret;
         }
         public function sendInlineQuery ($results) {
             self::$inlineResults = array_merge (self::$inlineResults, $results);
