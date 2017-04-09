@@ -161,6 +161,20 @@
             if (empty ($_POST['pcn']) || empty ($_POST['method'])) {
                 exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
             }
+            if (in_array ($_POST['method'], ['init',
+                                             'command',
+                                             'message',
+                                             'callback_query',
+                                             'inline_query',
+                                             'new_member',
+                                             'left_member',
+                                             'install',
+                                             'uninstall',
+                                             'enable',
+                                             'disable',
+                                             'settings',])) {
+                exit (json_encode (array ('code' => -2, 'msg' => '非法请求')));
+            }
             
             /** 初始化 */
             $pluginModel = new PluginModel;
