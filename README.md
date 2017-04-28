@@ -6,6 +6,8 @@ PS：[真正的粉丝群](https://telegram.me/TboJiangGroup)
 
 PSS：[开发文档](https://github.com/U2FsdGVkX1/Tbo/wiki)
 
+AD：[作者自己的 channel（与 Tbo 无关）](https://t.me/u2fplus1s)
+
 ---
 
 为了保证 Tbo 正常运行，建议安装到符合以下条件的环境
