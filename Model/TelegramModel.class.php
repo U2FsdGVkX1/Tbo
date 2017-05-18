@@ -70,6 +70,13 @@
             ]);
             return $this->ret['result']['message_id'];
         }
+        public function deleteMessage ($chat_id, $message_id) {
+            $this->ret = $this->callMethod ('deleteMessage', [
+                'chat_id' => $chat_id,
+                'message_id' => $message_id
+            ]);
+            return $this->ret;
+        }
         public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
