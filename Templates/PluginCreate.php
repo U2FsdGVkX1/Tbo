@@ -27,6 +27,12 @@
         public function message ($message, $message_id, $from, $chat, $date) {
             
         }
+        public function sticker ($sticker, $message_id, $from, $chat, $date) {
+            
+        }
+        public function photo ($photo, $caption, $message_id, $from, $chat, $date) {
+            
+        }
         public function callback_query ($callback_data, $callback_id, $callback_from, $message_id, $from, $chat, $date) {
             
         }
