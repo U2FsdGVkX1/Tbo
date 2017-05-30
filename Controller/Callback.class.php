@@ -147,7 +147,43 @@
 		                $data['message']['chat'],
 		                $data['message']['date'],
 		            ];
-		        }
+		        } else if (isset ($data['message']['sticker'])) {
+                    $func = 'sticker';
+                    $param = [
+                        $data['message']['sticker'],
+                        $data['message']['message_id'],
+                        $data['message']['from'],
+                        $data['message']['chat'],
+                        $data['message']['date'],
+                    ];
+                    $initParam = [
+                        $func,
+                        $data['message']['from'],
+                        $data['message']['chat'],
+                        $data['message']['date'],
+                    ];
+                } else if (isset ($data['message']['photo'])) {
+                    $caption = '';
+                    if (isset ($data['message']['caption'])) {
+                        $caption = $data['message']['caption'];
+                    }
+    
+                    $func = 'photo';
+                    $param = [
+                        $data['message']['photo'],
+                        $caption,
+                        $data['message']['message_id'],
+                        $data['message']['from'],
+                        $data['message']['chat'],
+                        $data['message']['date'],
+                    ];
+                    $initParam = [
+                        $func,
+                        $data['message']['from'],
+                        $data['message']['chat'],
+                        $data['message']['date'],
+                    ];
+                }
 		    } else if (isset ($data['callback_query'])) {
 		        if (isset ($data['callback_query']['data'])) {
     		        $func = 'callback_query';
