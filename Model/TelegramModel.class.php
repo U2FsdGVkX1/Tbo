@@ -20,7 +20,7 @@
             
             return $re;
         }
-        protected function callMethod ($method, $param = array (), $detection = true) {
+        public function callMethod ($method, $param = array (), $detection = true) {
             /** 初始化变量 */
             if ($this->token === NULL) {
                 $url = 'https://api.telegram.org/bot' . TOKEN . '/' . $method;
