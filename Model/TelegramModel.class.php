@@ -35,7 +35,7 @@
             if ($ret['ok'] == false && $detection == true) {
                 if ($ret['error_code'] != 400 && $ret['error_code'] != 403) {
                     $errorModel = new ErrorModel;
-                    $errorModel->sendError ('-1001078722237', '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
+                    $errorModel->sendError (MASTER, '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
                 }
             }
             
