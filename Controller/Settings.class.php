@@ -12,7 +12,7 @@
         }
         function ajaxSave () {
             /** 检查 */
-            if ($_POST['master'] == '' && $_POST['fastLogin'] == 'true') {
+            if ($_POST['master'] == '' && ($_POST['fastLogin'] == 'true' || $_POST['debug'] == 'true')) {
                 exit (json_encode (array ('code' => -1, 'msg' => '请设置主人 ID')));
             }
             

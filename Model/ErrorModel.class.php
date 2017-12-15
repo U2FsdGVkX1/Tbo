@@ -10,7 +10,7 @@
             $this->checkPlugin ();
             
             $errMsg = '在 ' . $errfile . ' 的第 ' . $errline . ' 行发生了一个错误：' . "\n" . $errstr;
-            $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
+            $this->sendError (MASTER, $this->replacePath ($errMsg));
         }
         public function exceptionHandler ($exception) {
             $GLOBALS['statistics']['error_total']++;
@@ -34,9 +34,9 @@
                 }
                 $errMsg .= "\n";
             }
-            $this->sendError ('-1001078722237', $this->replacePath ($errMsg));
+            $this->sendError (MASTER, $this->replacePath ($errMsg));
         }
-        public function sendError ($chat_id = '-1001078722237', $text = '发生了一个错误') {
+        public function sendError ($chat_id = MASTER, $text = '发生了一个错误') {
             /** 判断是否发送报告 */
             if (DEBUG) {
                 $url = 'https://api.telegram.org/bot' . TOKEN . '/sendMessage';

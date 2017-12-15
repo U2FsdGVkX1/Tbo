@@ -47,9 +47,6 @@
         </label>
         <div id="debugAlert" <?php if (!DEBUG) echo 'style="display: none"' ?> class="alert alert-info" role="alert">
             <strong>勾选此选项将会在出现错误或异常时发送报告</strong>
-            <br>
-            <br>
-            PS：要取得错误报告需要<del>先肛了果果</del>加入这个<a href="https://telegram.me/Tencent_QQ" target="_blink">群组</a>
         </div>
         <br>
         <button id="save" style="float: right" type="button" class="btn btn-success">确定</button>
