@@ -20,7 +20,7 @@
             
             return $re;
         }
-        protected function callMethod ($method, $param = array (), $detection = true) {
+        public function callMethod ($method, $param = array (), $detection = true) {
             /** 初始化变量 */
             if ($this->token === NULL) {
                 $url = 'https://api.telegram.org/bot' . TOKEN . '/' . $method;
@@ -35,7 +35,7 @@
             if ($ret['ok'] == false && $detection == true) {
                 if ($ret['error_code'] != 400 && $ret['error_code'] != 403) {
                     $errorModel = new ErrorModel;
-                    $errorModel->sendError ('-1001078722237', '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
+                    $errorModel->sendError (MASTER, '尝试调用 ' . $method . " 时出现问题，参数表如下：\n" . print_r ($param, true) . "\n\n返回结果：\n" . print_r ($ret, true));
                 }
             }
             
@@ -74,6 +74,13 @@
                 'reply_markup' => $reply_markup
             ]);
             return $this->ret['result']['message_id'];
+        }
+        public function deleteMessage ($chat_id, $message_id) {
+            $this->ret = $this->callMethod ('deleteMessage', [
+                'chat_id' => $chat_id,
+                'message_id' => $message_id
+            ]);
+            return $this->ret;
         }
         public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
             if (isset ($GLOBALS['statistics']['send_total']))
@@ -181,7 +188,7 @@
         public function getMe () {
             $this->ret = $this->callMethod ('getMe', [
             ]);
-            return $this->ret;
+            return $this->ret['result'];
         }
         public function isAdmin ($chat_id, $user_id) {
             $ret = false;
