@@ -40,7 +40,7 @@
                     $('#container').animate({
                         opacity: "0.0",
                         left: newPosition + "px"
-                    }, 1500, function(){
+                    }, 1000, function(){
                         $(this).css("left", "-" + newPosition + "px");
                         $.pjax({url: newUrl, container: '#container'});
                     });
@@ -53,7 +53,7 @@
                     $('#container').animate({
                         opacity: "1.0",
                         left: "0"
-                    }, 1500, function(){
+                    }, 1000, function(){
                         $('#container').css("position", "static");
                     });
                 });

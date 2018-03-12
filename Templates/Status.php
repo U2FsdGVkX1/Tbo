@@ -12,8 +12,16 @@
     $error_total = $optionModel->getvalue ('error_total');
     
     /** Bot是否boom */
-    $status = $telegramModel->getMe ();
-    $boom = !$status['ok'];
+    $status = $telegramModel->getWebhook ();
+    if ($status['ok']) {
+        if (empty ($status['result']['last_error_message'])) {
+            $boomMessage = '';
+        } else {
+            $boomMessage = $status['result']['last_error_message'];
+        }
+    } else {
+        $boomMessage = '建议检查 Token 是否正确';
+    }
 ?>
 <?php if ($pjax == false) require_once 'Header1.php' ?>
 <title>Bot 状态</title>
@@ -24,16 +32,16 @@
 <div class="row">
     <div class="col-xs-12" style="margin-top: 10px">
         <?php
-            if ($boom) {
+            if ($boomMessage == '') {
                 ?>
-                <div class="alert alert-danger" role="alert">
-                    <strong>你的 Bot 好像 boom 了，建议检查 Token 是否正确</strong>
+                <div class="alert alert-success" role="alert">
+                    <strong>你的 Bot 正在运行……</strong>
                 </div>
                 <?php
             } else {
                 ?>
-                <div class="alert alert-success" role="alert">
-                    <strong>你的 Bot 正在运行……</strong>
+                <div class="alert alert-danger" role="alert">
+                    <strong>你的 Bot 好像 boom 了，<?php echo $boomMessage ?></strong>
                 </div>
                 <?php
             }
