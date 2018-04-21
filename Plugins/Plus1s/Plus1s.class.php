@@ -37,4 +37,19 @@
                 $this->telegram->editMessage ($chat['id'], $message_id, '暴力续命不可取🌝👎👎');
             }
         }
+        public function inline_query ($query, $offset, $inline_id, $from) {
+            if ($query == '+1s') {
+                $tmp = [
+                    [
+                        'type' => 'article',
+                        'id' => $this->telegram->getInlineId(),
+                        'title' => '一句诗',
+                        'input_message_content' => [
+                            'message_text' => '苟……'
+                        ]
+                    ]
+                ];
+                $this->telegram->sendInlineQuery($tmp);
+            }
+        }
     }
