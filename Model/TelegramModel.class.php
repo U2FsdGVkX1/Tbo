@@ -120,6 +120,17 @@
             ]);
             return $this->ret['result']['message_id'];
         }
+        public function sendSticker ($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array ()) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendSticker', [
+                'chat_id' => $chat_id,
+                'sticker' => $sticker,
+                'reply_to_message_id' => $reply_to_message_id,
+                'reply_markup' => $reply_markup
+            ]);
+            return $this->ret['result']['message_id'];
+        }
         public function sendGame ($chat_id, $game_name, $reply_to_message_id = NULL, $reply_markup = array ()) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
@@ -189,6 +200,12 @@
         }
         public function getMe () {
             $this->ret = $this->callMethod ('getMe', [
+            ]);
+            return $this->ret['result'];
+        }
+        public function getStickerSet ($name) {
+            $this->ret = $this->callMethod ('getStickerSet', [
+                'name' => $name
             ]);
             return $this->ret['result'];
         }
