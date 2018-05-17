@@ -54,7 +54,7 @@
             ], false);
             return $this->ret;
         }
-        public function sendMessage ($chat_id, $text, $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
+        public function sendMessage ($chat_id, $text, $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML', $disable_web_page_preview = false, $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendMessage', [
@@ -62,7 +62,9 @@
                 'text' => $text,
                 'reply_to_message_id' => $reply_to_message_id,
                 'parse_mode' => $parse_mode,
-                'reply_markup' => $reply_markup
+                'reply_markup' => $reply_markup,
+                'disable_web_page_preview' => $disable_web_page_preview,
+                'disable_notification' => $disable_notification
             ]);
             return $this->ret['result']['message_id'];
         }
@@ -114,6 +116,17 @@
                 'chat_id' => $chat_id,
                 'document' => $document,
                 'caption' => $caption,
+                'reply_to_message_id' => $reply_to_message_id,
+                'reply_markup' => $reply_markup
+            ]);
+            return $this->ret['result']['message_id'];
+        }
+        public function sendSticker ($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array ()) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendSticker', [
+                'chat_id' => $chat_id,
+                'sticker' => $sticker,
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
@@ -188,6 +201,12 @@
         }
         public function getMe () {
             $this->ret = $this->callMethod ('getMe', [
+            ]);
+            return $this->ret['result'];
+        }
+        public function getStickerSet ($name) {
+            $this->ret = $this->callMethod ('getStickerSet', [
+                'name' => $name
             ]);
             return $this->ret['result'];
         }
