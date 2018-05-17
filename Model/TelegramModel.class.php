@@ -1,6 +1,7 @@
 <?php
     class TelegramModel extends FLModel {
         private $ret;
+        private $token;
         private static $inlineResults = array ();
         
         public function __construct ($token = NULL) {

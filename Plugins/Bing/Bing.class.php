@@ -57,6 +57,7 @@
                     ));
                 }
                 $this->telegram->sendPhoto ($chat['id'], $imgurl, $copyright, $message_id, $button);
+                $this->telegram->answerCallback($callback_id);
             }
         }
     }
