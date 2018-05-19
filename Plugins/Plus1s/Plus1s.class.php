@@ -5,6 +5,16 @@
                 $s = file_get_contents (__DIR__ . '/s.txt');
                 $s++;
                 file_put_contents (__DIR__ . '/s.txt', $s);
+                /*
+                    数据库驱动版本：
+                    $s = $this->option->getvalue('plus1s_min');
+                    if ($s === NULL)
+                        $this->option->add ('plus1s_min', 0);
+                    $s++;
+                    $this->option->update ('plus1s_min', $s);
+                    
+                    详细定义：/Model/OptionModel.class.php
+                */
                 
                 $text = gmstrftime ('🌚迄今为止，我已经多活了 %Hhours %Mminutes %Sseconds', $s);
                 $button = json_encode (array (
