@@ -1,6 +1,7 @@
 <?php
     class Base extends FLModel {
         protected $telegram;
+        protected $option;
         
         public function __construct () {
             $this->telegram = new TelegramModel;
