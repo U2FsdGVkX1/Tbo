@@ -1,10 +1,10 @@
 CREATE TABLE `options` (
-  `name` char(255) DEFAULT NULL,
+  `name` char(255) PRIMARY KEY,
   `value` char(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `plugins` (
-  `pcn` char(255) DEFAULT NULL,
+  `pcn` char(255) PRIMARY KEY,
   `enabled` int(1) DEFAULT NULL,
   `lasterror` int DEFAULT NULL,
   `priority` int DEFAULT NULL
