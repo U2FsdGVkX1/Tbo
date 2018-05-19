@@ -47,4 +47,4 @@ Tbo 使用了以下开源项目，感谢它们的贡献：
 
 [Guoguo](https://github.com/imguoguo)
 
-<del>PS：实际情况是因为他们闲着没事干，所以我把他们拽过来了</del>
+[myluoluo](https://github.com/myluoluo)
