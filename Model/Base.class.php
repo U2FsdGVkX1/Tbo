@@ -4,6 +4,7 @@
         
         public function __construct () {
             $this->telegram = new TelegramModel;
+            $this->option = new OptionModel;
             parent::__construct ();
         }
         public function fetch ($url, $postdata = null, $cookie = null, $header = array (), $convert = false) {
