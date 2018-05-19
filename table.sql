@@ -11,7 +11,7 @@ CREATE TABLE `plugins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `options` (`name`, `value`) VALUES
-('password', 'admin');
+('password', '77e2edcc9b40441200e31dc57dbb8829');
 INSERT INTO `options` (`name`, `value`) VALUES
 ('message_total', '0');
 INSERT INTO `options` (`name`, `value`) VALUES

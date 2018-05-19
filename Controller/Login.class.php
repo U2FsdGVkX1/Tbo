@@ -10,36 +10,36 @@
         function ajaxLogin () {
             /** 检查 */
             if (FASTLOGIN) {
-				exit (json_encode (array ('code' => -2, 'msg' => '请使用快速登录')));
-			}
-			if (empty ($_POST['password'])) {
-				exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
-			}
-			
-			/** 初始化 */
-			$systemModel = new SystemModel;
-			
-			/** 返回 */
-			if (md5 (md5 (md5 ($_POST['password']))) == $systemModel->password () || $_POST['password'] == $systemModel->password ()) {
-			    $_SESSION['logined'] = true;
-			    $this->loginNotify ();
-			    
-				exit (json_encode (array ('code' => 0)));
-			} else {
-				exit (json_encode (array ('code' => -1, 'msg' => '密码错误')));
-			}
+                exit (json_encode (array ('code' => -2, 'msg' => '请使用快速登录')));
+            }
+            if (empty ($_POST['password'])) {
+                exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
+            }
+            
+            /** 初始化 */
+            $systemModel = new SystemModel;
+            
+            /** 返回 */
+            if (md5 (md5 (md5 ($_POST['password']))) == $systemModel->password ()) {
+                $_SESSION['logined'] = true;
+                $this->loginNotify ();
+                
+                exit (json_encode (array ('code' => 0)));
+            } else {
+                exit (json_encode (array ('code' => -1, 'msg' => '密码错误')));
+            }
         }
         function fastLogin () {
             /** 检查 */
             if (!FASTLOGIN) {
-				exit (json_encode (array ('code' => -1, 'msg' => '请使用密码登录')));
-			}
-			
-			/** 初始化 */
-			$telegramModel = new TelegramModel;
-			
-			/** 发送授权 */
-			$str = $_SERVER['REMOTE_ADDR'] . ' 希望登录后台，是否授权？';
+                exit (json_encode (array ('code' => -1, 'msg' => '请使用密码登录')));
+            }
+            
+            /** 初始化 */
+            $telegramModel = new TelegramModel;
+            
+            /** 发送授权 */
+            $str = $_SERVER['REMOTE_ADDR'] . ' 希望登录后台，是否授权？';
             $button = json_encode (array (
                 'inline_keyboard' => array (
                     array (array (
@@ -53,27 +53,27 @@
                 )
             ));
             $telegramModel->sendMessage (MASTER, $str, NULL, $button);
-			
-			/** 返回 */
-			exit (json_encode (array ('code' => 0)));
+            
+            /** 返回 */
+            exit (json_encode (array ('code' => 0)));
         }
         function fastLoginVerify () {
             /** 初始化 */
-			$optionModel = new OptionModel;
-			
-			/** 验证 */
-			$ip = $optionModel->getvalue ('fastlogin_ip');
-			
-			/** 返回 */
-			if ($_SERVER['REMOTE_ADDR'] == $ip) {
-			    $_SESSION['logined'] = true;
-			    $this->loginNotify ();
-			    
-			    $optionModel->update ('fastlogin_ip', '');
-			    exit (json_encode (array ('code' => 0)));
-			} else {
-			    exit (json_encode (array ('code' => -1, 'msg' => 'IP不正确')));
-			}
+            $optionModel = new OptionModel;
+            
+            /** 验证 */
+            $ip = $optionModel->getvalue ('fastlogin_ip');
+            
+            /** 返回 */
+            if ($_SERVER['REMOTE_ADDR'] == $ip) {
+                $_SESSION['logined'] = true;
+                $this->loginNotify ();
+                
+                $optionModel->update ('fastlogin_ip', '');
+                exit (json_encode (array ('code' => 0)));
+            } else {
+                exit (json_encode (array ('code' => -1, 'msg' => 'IP不正确')));
+            }
         }
         function ajaxLogout () {
             $_SESSION['logined'] = false;
@@ -87,10 +87,10 @@
         function loginNotify () {
             if ($_SESSION['logined'] == true && MASTER != '') {
                 /** 初始化 */
-			    $telegramModel = new TelegramModel;
-			    
-			    /** 发送授权 */
-    			$str = $_SERVER['REMOTE_ADDR'] . ' 已登录后台，其 UA 为：' . "\n" . $_SERVER['HTTP_USER_AGENT'];
+                $telegramModel = new TelegramModel;
+                
+                /** 发送授权 */
+                $str = $_SERVER['REMOTE_ADDR'] . ' 已登录后台，其 UA 为：' . "\n" . $_SERVER['HTTP_USER_AGENT'];
                 $button = json_encode (array (
                     'inline_keyboard' => array (
                         array (array (
