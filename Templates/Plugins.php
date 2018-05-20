@@ -11,6 +11,13 @@
     <div class="col-xs-12" style="margin-top: 10px">
         <div class="row">
             <?php
+            if (!function_exists("scandir")) {
+                ?>
+            <div class="alert alert-danger" role="alert">
+                <center><strong>scandir 函数被禁用，将导致不能显示插件列表，请检查 php.ini</strong></center>
+            </div>
+            <?php
+            }
                 $pluginModel = new PluginModel;
                 $pluginList = $pluginModel->scan ();
                 $pluginEnabledList = $pluginModel->getinfo ();
