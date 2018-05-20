@@ -102,6 +102,12 @@
         }
         function settings ($pcn)
         {
+            /** 判断是否已禁用 */
+            $pluginInfo = $this->getinfo ($pcn);
+            if (empty ($pluginInfo) || $pluginInfo[0]['enabled'] == 0) {
+                return;
+            }
+
             /** 调用方法 */
             require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
             $plugin = new $pcn ('');
@@ -118,6 +124,12 @@
         }
         function callMethod ($pcn, $method)
         {
+            /** 判断是否已禁用 */
+            $pluginInfo = $this->getinfo ($pcn);
+            if (empty ($pluginInfo) || $pluginInfo[0]['enabled'] == 0) {
+                return;
+            }
+
             /** 调用方法 */
             require_once APP_PATH . '/Plugins/' . $pcn . '/' . $pcn . '.class.php';
             $ret = '';
@@ -199,7 +211,7 @@
                             if (!empty ($doc_t) && $doc_t[0] == '@') {
                                 $args = explode (' ', substr ($doc_t, 1, strlen ($doc_t) - 1)); /** 分割 */
                                 if (!empty ($args[0]) && count ($args) >= 2) {
-                                    $pinfo_f[$args[0]] = $args[1];
+                                    $pinfo_f[$args[0]] = implode (' ', array_slice ($args, 1));
                                 }
                             }
                         }
