@@ -202,7 +202,7 @@
         public function getMe () {
             $this->ret = $this->callMethod ('getMe', [
             ]);
-            return $this->ret['result'];
+            return $this->ret;
         }
         public function getStickerSet ($name) {
             $this->ret = $this->callMethod ('getStickerSet', [
