@@ -45,11 +45,11 @@
                     array (array (
                         'text' => '授权',
                         'callback_data' => 'Tbo_Operations fastLogin allow ' . $_SERVER['REMOTE_ADDR']
-                    )),
-                    array (array (
+                    ),array (
                         'text' => '不授权',
                         'callback_data' => 'Tbo_Operations fastLogin noallow'
-                    ))
+                      )
+                    )
                 )
             ));
             $telegramModel->sendMessage (MASTER, $str, NULL, $button);
