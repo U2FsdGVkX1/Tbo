@@ -42,13 +42,14 @@
             $str = $_SERVER['REMOTE_ADDR'] . ' 希望登录后台，是否授权？';
             $button = json_encode (array (
                 'inline_keyboard' => array (
-                    array (array (
-                        'text' => '授权',
-                        'callback_data' => 'Tbo_Operations fastLogin allow ' . $_SERVER['REMOTE_ADDR']
-                    ),array (
-                        'text' => '不授权',
-                        'callback_data' => 'Tbo_Operations fastLogin noallow'
-                      )
+                    array (
+                        array (
+                            'text' => '授权',
+                            'callback_data' => 'Tbo_Operations fastLogin allow ' . $_SERVER['REMOTE_ADDR']
+                        ), array (
+                            'text' => '不授权',
+                            'callback_data' => 'Tbo_Operations fastLogin noallow'
+                        )
                     )
                 )
             ));
