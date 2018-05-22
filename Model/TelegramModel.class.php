@@ -8,11 +8,35 @@
             $this->token = $token;
             parent::__construct ();
         }
+        /**
+         * http_build_query兼容多维数组，返回结果数组仍支持http_build_query函数处理
+         * @author Zjmainstay https://bugs.php.net/bug.php?id=67477
+         * @param $data array curl传递参数的数组（原装）
+         * @return array 可curl传递的格式化数组
+         */
+        function http_build_query_develop($data) {
+            if(!is_array($data)) {
+                return $data;
+            }
+            foreach($data as $key => $val) {
+                if(is_array($val)) {
+                    foreach($val as $k => $v) {
+                        if(is_array($v)) {
+                            $data = array_merge($data, http_build_query_develop(array( "{$key}[{$k}]" => $v)));
+                        } else {
+                            $data["{$key}[{$k}]"] = $v;
+                        }
+                    }
+                    unset($data[$key]);
+                }
+            }
+            return $data;
+        }
         private function fetch ($url, $postdata = null) {
             $ch = curl_init ();
             curl_setopt ($ch, CURLOPT_URL, $url);
             if (!is_null ($postdata)) {
-                curl_setopt ($ch, CURLOPT_POSTFIELDS, http_build_query ($postdata));
+                curl_setopt ($ch, CURLOPT_POSTFIELDS, $this->http_build_query_develop($postdata));
             }
             curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
