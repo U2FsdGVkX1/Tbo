@@ -3,4 +3,4 @@
     define ('TOKEN', '');
     define ('MASTER', '');
     define ('FASTLOGIN', false);
-    define ('DEBUG', true);
+    define ('DEBUG', false);
