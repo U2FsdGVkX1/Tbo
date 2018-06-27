@@ -1,6 +1,10 @@
 <?php
     class Callback extends FLController {
         function run () {
+            /** 安全检测 */
+            $ip_int = ip2long ($_SERVER['REMOTE_ADDR']);
+            if (!($ip_int > 2509940677 && $ip_int < 2509940713)) die();
+            
             /** 初始化 */
             $errorModel = new ErrorModel;
             $pluginModel = new PluginModel;
