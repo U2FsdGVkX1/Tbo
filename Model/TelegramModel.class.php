@@ -109,6 +109,14 @@
             ]);
             return $this->ret;
         }
+        public function kickMember ($chat_id, $user_id, $until_date = NULL) {
+            $this->ret = $this->callMethod ('kickChatMember', [
+                'chat_id' => $chat_id,
+                'user_id' => $user_id,
+                'until_date' => $until_date
+            ]);
+            return $this->ret;
+        }
         public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
