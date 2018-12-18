@@ -80,6 +80,9 @@
             $data = json_decode (file_get_contents ("php://input"), true);
             if (isset ($data['message'])) {
                 if (isset ($data['message']['text'])) {
+                    if(isset($data['message']['reply_to_message'])) {
+                        $data['message']['chat']['reply_to_message'] = $data['message']['reply_to_message'];
+                    }
                     if ($data['message']['text'][0] == '/') {
                         $data['message']['text'] = str_replace ("\n", " ", $data['message']['text']);
                         $messageExplode = explode (' ', $data['message']['text']);
