@@ -222,6 +222,13 @@
             ]);
             return $this->ret;
         }
+        public function sendChatAction ($chat_id, $action) {
+            $this->ret = $this->callMethod ('sendChatAction', [
+                'chat_id' => $chat_id,
+                'action' => $action
+            ]);
+            return $this->ret;
+        }
         public function getInlineId () {
             return hash ('sha256', uniqid (mt_rand (), true));
         }
