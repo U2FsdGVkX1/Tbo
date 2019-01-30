@@ -81,15 +81,18 @@
         public function sendMessage ($chat_id, $text, $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML', $disable_web_page_preview = false, $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('sendMessage', [
-                'chat_id' => $chat_id,
-                'text' => $text,
-                'reply_to_message_id' => $reply_to_message_id,
-                'parse_mode' => $parse_mode,
-                'reply_markup' => $reply_markup,
-                'disable_web_page_preview' => $disable_web_page_preview,
-                'disable_notification' => $disable_notification
-            ]);
+            foreach (str_split ($text, 4096) as $text_i => $text_d) {
+                $tmp = $this->callMethod ('sendMessage', [
+                    'chat_id' => $chat_id,
+                    'text' => $text_d,
+                    'reply_to_message_id' => $reply_to_message_id,
+                    'parse_mode' => $parse_mode,
+                    'reply_markup' => $reply_markup,
+                    'disable_web_page_preview' => $disable_web_page_preview,
+                    'disable_notification' => $disable_notification
+                ]);
+                if ($text_i == 0) $this->ret = $tmp;
+            }
             return $this->ret['result']['message_id'];
         }
         public function editMessage ($chat_id, $message_id, $text, $reply_markup = array (), $parse_mode = 'HTML') {
