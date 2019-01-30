@@ -35,6 +35,6 @@
         }
         public function debug ($expression) {
             $text = print_r ($expression, true);
-            $this->telegram->sendMessage (MASTER, $text);
+            $this->telegram->sendMessage (MASTER, $text, NULL, [], '');
         }
     }
