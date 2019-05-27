@@ -232,6 +232,20 @@
             ]);
             return $this->ret;
         }
+        public function getFile ($file_id) {
+            $this->ret = $this->callMethod ('getFile', [
+                'file_id' => $file_id,
+            ]);
+            if($this->ret['ok']) {
+                if ($this->token === NULL) {
+                    $fileUrl = 'https://api.telegram.org/file/bot' . TOKEN . '/' . $this->ret['result']['file_path'];
+                } else {
+                    $fileUrl = 'https://api.telegram.org/file/bot' . $this->token . '/' . $this->ret['result']['file_path'];
+                }
+                $this->ret['result']['down_url'] = $fileUrl;
+            }
+            return $this->ret;
+        }
         public function getInlineId () {
             return hash ('sha256', uniqid (mt_rand (), true));
         }
