@@ -47,6 +47,7 @@
         }
         public function callMethod ($method, $param = array (), $detection = true) {
             /** 访问网页 */
+            $url = 'https://api.telegram.org/bot' . $this->token . '/' . $method;
             $ret = json_decode ($this->fetch ($url, $param), true);
             
             /** 分析结果 */
