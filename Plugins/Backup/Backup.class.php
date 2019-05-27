@@ -24,9 +24,13 @@ class Backup extends Base
                 return;
             }
 
+            // 避免数据量过大，导出不全的情况出现。
             ignore_user_abort(true);
-            set_time_limit(0);
-            ini_set("max_execution_time", "23333"); //避免数据量过大，导出不全的情况出现。
+            if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+                @set_time_limit(0);
+            }
+            @ini_set("max_execution_time", '3600');
+            @ini_set('max_input_time', '3600');
 
             $msg1 = $this->telegram->sendMessage($chat['id'], '备份马上开始，请稍等', $message_id);
             $backupFile = $this->EXPORT_TABLES(__DIR__ . '/');
