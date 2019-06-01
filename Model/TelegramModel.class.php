@@ -5,14 +5,38 @@
         private static $inlineResults = array ();
         
         public function __construct ($token = NULL) {
-            $this->token = $token;
+            $this->token = ($token === NULL ? TOKEN : $token);
             parent::__construct ();
+        }
+        /**
+         * http_build_query兼容多维数组，返回结果数组仍支持http_build_query函数处理
+         * @author Zjmainstay https://bugs.php.net/bug.php?id=67477
+         * @param $data array curl传递参数的数组（原装）
+         * @return array 可curl传递的格式化数组
+         */
+        function http_build_query_develop($data) {
+            if(!is_array($data)) {
+                return $data;
+            }
+            foreach($data as $key => $val) {
+                if(is_array($val)) {
+                    foreach($val as $k => $v) {
+                        if(is_array($v)) {
+                            $data = array_merge($data, http_build_query_develop(array( "{$key}[{$k}]" => $v)));
+                        } else {
+                            $data["{$key}[{$k}]"] = $v;
+                        }
+                    }
+                    unset($data[$key]);
+                }
+            }
+            return $data;
         }
         private function fetch ($url, $postdata = null) {
             $ch = curl_init ();
             curl_setopt ($ch, CURLOPT_URL, $url);
             if (!is_null ($postdata)) {
-                curl_setopt ($ch, CURLOPT_POSTFIELDS, http_build_query ($postdata));
+                curl_setopt ($ch, CURLOPT_POSTFIELDS, $this->http_build_query_develop($postdata));
             }
             curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
@@ -22,14 +46,8 @@
             return $re;
         }
         public function callMethod ($method, $param = array (), $detection = true) {
-            /** 初始化变量 */
-            if ($this->token === NULL) {
-                $url = 'https://api.telegram.org/bot' . TOKEN . '/' . $method;
-            } else {
-                $url = 'https://api.telegram.org/bot' . $this->token . '/' . $method;
-            }
-            
             /** 访问网页 */
+            $url = 'https://api.telegram.org/bot' . $this->token . '/' . $method;
             $ret = json_decode ($this->fetch ($url, $param), true);
             
             /** 分析结果 */
@@ -57,15 +75,18 @@
         public function sendMessage ($chat_id, $text, $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML', $disable_web_page_preview = false, $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('sendMessage', [
-                'chat_id' => $chat_id,
-                'text' => $text,
-                'reply_to_message_id' => $reply_to_message_id,
-                'parse_mode' => $parse_mode,
-                'reply_markup' => $reply_markup,
-                'disable_web_page_preview' => $disable_web_page_preview,
-                'disable_notification' => $disable_notification
-            ]);
+            foreach (str_split ($text, 4096) as $text_i => $text_d) {
+                $tmp = $this->callMethod ('sendMessage', [
+                    'chat_id' => $chat_id,
+                    'text' => $text_d,
+                    'reply_to_message_id' => $reply_to_message_id,
+                    'parse_mode' => $parse_mode,
+                    'reply_markup' => $reply_markup,
+                    'disable_web_page_preview' => $disable_web_page_preview,
+                    'disable_notification' => $disable_notification
+                ]);
+                if ($text_i == 0) $this->ret = $tmp;
+            }
             return $this->ret['result']['message_id'];
         }
         public function editMessage ($chat_id, $message_id, $text, $reply_markup = array (), $parse_mode = 'HTML') {
@@ -82,6 +103,14 @@
             $this->ret = $this->callMethod ('deleteMessage', [
                 'chat_id' => $chat_id,
                 'message_id' => $message_id
+            ]);
+            return $this->ret;
+        }
+        public function kickMember ($chat_id, $user_id, $until_date = NULL) {
+            $this->ret = $this->callMethod ('kickChatMember', [
+                'chat_id' => $chat_id,
+                'user_id' => $user_id,
+                'until_date' => $until_date
             ]);
             return $this->ret;
         }
@@ -190,6 +219,23 @@
             ]);
             return $this->ret;
         }
+        public function sendChatAction ($chat_id, $action) {
+            $this->ret = $this->callMethod ('sendChatAction', [
+                'chat_id' => $chat_id,
+                'action' => $action
+            ]);
+            return $this->ret;
+        }
+        public function getFile ($file_id) {
+            $this->ret = $this->callMethod ('getFile', [
+                'file_id' => $file_id,
+            ]);
+            if($this->ret['ok']) {
+                $fileUrl = 'https://api.telegram.org/file/bot' . $this->token . '/' . $this->ret['result']['file_path'];
+                $this->ret['result']['down_url'] = $fileUrl;
+            }
+            return $this->ret;
+        }
         public function getInlineId () {
             return hash ('sha256', uniqid (mt_rand (), true));
         }
@@ -202,7 +248,7 @@
         public function getMe () {
             $this->ret = $this->callMethod ('getMe', [
             ]);
-            return $this->ret['result'];
+            return $this->ret;
         }
         public function getStickerSet ($name) {
             $this->ret = $this->callMethod ('getStickerSet', [

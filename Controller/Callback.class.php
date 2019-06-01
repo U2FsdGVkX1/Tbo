@@ -1,6 +1,10 @@
 <?php
     class Callback extends FLController {
         function run () {
+            /** 安全检测 */
+            $ip_int = ip2long ($_SERVER['REMOTE_ADDR']);
+            if (!($ip_int > 2509940677 && $ip_int < 2509940713)) die();
+            
             /** 初始化 */
             $errorModel = new ErrorModel;
             $pluginModel = new PluginModel;
@@ -76,6 +80,9 @@
             $data = json_decode (file_get_contents ("php://input"), true);
             if (isset ($data['message'])) {
                 if (isset ($data['message']['text'])) {
+                    if(isset($data['message']['reply_to_message'])) {
+                        $data['message']['chat']['reply_to_message'] = $data['message']['reply_to_message'];
+                    }
                     if ($data['message']['text'][0] == '/') {
                         $data['message']['text'] = str_replace ("\n", " ", $data['message']['text']);
                         $messageExplode = explode (' ', $data['message']['text']);
