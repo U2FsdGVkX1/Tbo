@@ -82,8 +82,8 @@
 
             /* 允许以下配置
              * define ('WEBHOOK_CIDR', [
-             *     "149.154.160.0/20",
-             *     "91.108.4.0/22"
+             *     "1.2.3.4/32",
+             *     "233.233.233.0/24"
              * ]);
              * */
             if(defined('WEBHOOK_CIDR') && is_array(WEBHOOK_CIDR)) {
