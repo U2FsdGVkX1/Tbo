@@ -2,8 +2,7 @@
     class Callback extends FLController {
         function run () {
             /** 安全检测 */
-            $ip_int = ip2long ($_SERVER['REMOTE_ADDR']);
-            if (!($ip_int > 2509940677 && $ip_int < 2509940713)) die();
+            if(!$this->webHookSign()) die();
             
             /** 初始化 */
             $errorModel = new ErrorModel;
@@ -74,7 +73,43 @@
             $optionModel->update ('send_total', $GLOBALS['statistics']['send_total']);
             $optionModel->update ('error_total', $GLOBALS['statistics']['error_total']);
         }
-        
+
+        private function webHookSign() {
+            $telegramWebhook = [
+                '149.154.160.0/20',
+                '91.108.4.0/22'
+            ];
+
+            /* 允许以下配置
+             * define ('WEBHOOK_CIDR', [
+             *     "1.2.3.4/32",
+             *     "233.233.233.0/24"
+             * ]);
+             * */
+            if(defined('WEBHOOK_CIDR') && is_array(WEBHOOK_CIDR)) {
+                $telegramWebhook = array_merge($telegramWebhook, WEBHOOK_CIDR);
+            }
+
+            foreach ($telegramWebhook as $cidr) {
+                if($this->cidrMatch($_SERVER['REMOTE_ADDR'], $cidr))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private function cidrMatch($ip, $cidr)
+        {
+            list($subnet, $mask) = explode('/', $cidr);
+
+            if ((ip2long($ip) & ~((1 << (32 - $mask)) - 1) ) == ip2long($subnet))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private function parseMessage ()
         {
             $data = json_decode (file_get_contents ("php://input"), true);
