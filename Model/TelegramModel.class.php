@@ -115,6 +115,16 @@
             return $this->ret;
         }
         public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
+          	if (is_array ($photo)) {
+             	 return $this->sendMediaGroup ($chat_id, array_map (function ($p) use ($caption) {
+                     return [
+                         'type' => 'photo',
+                         'media' => $p,
+                         'caption' => $caption
+                     ];
+                 }, $photo), $reply_to_message_id);
+            }
+          	
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendPhoto', [
@@ -123,8 +133,20 @@
                 'caption' => $caption,
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
-            ]);
+              ]);
             return $this->ret['result']['message_id'];
+        }
+       public function sendMediaGroup ($chat_id, $media, $reply_to_message_id = NULL) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendMediaGroup', [
+                'chat_id' => $chat_id,
+                'media' => json_encode ($media),
+                'reply_to_message_id' => $reply_to_message_id
+            ]);
+            return array_map (function ($m){
+              	return $m['message_id'];
+            }, $this->ret['result']);
         }
         public function sendAudio ($chat_id, $audio, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
             if (isset ($GLOBALS['statistics']['send_total']))
