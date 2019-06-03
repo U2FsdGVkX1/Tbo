@@ -114,13 +114,14 @@
             ]);
             return $this->ret;
         }
-        public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
+        public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
             if (is_array ($photo)) {
                  return $this->sendMediaGroup ($chat_id, array_map (function ($p) use ($caption) {
                      return [
                          'type' => 'photo',
                          'media' => $p,
-                         'caption' => $caption
+                         'caption' => $caption,
+                         'parse_mode' => $parse_mode
                      ];
                  }, $photo), $reply_to_message_id);
             }
@@ -131,6 +132,7 @@
                 'chat_id' => $chat_id,
                 'photo' => $photo,
                 'caption' => $caption,
+                'parse_mode' => $parse_mode,
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
               ]);
@@ -148,25 +150,27 @@
                 return $m['message_id'];
             }, $this->ret['result']);
         }
-        public function sendAudio ($chat_id, $audio, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
+        public function sendAudio ($chat_id, $audio, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendAudio', [
                 'chat_id' => $chat_id,
                 'audio' => $audio,
                 'caption' => $caption,
+                'parse_mode' => $parse_mode,
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
             return $this->ret['result']['message_id'];
         }
-        public function sendDocument ($chat_id, $document, $caption = '', $reply_to_message_id = NULL, $reply_markup = array ()) {
+        public function sendDocument ($chat_id, $document, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendDocument', [
                 'chat_id' => $chat_id,
                 'document' => $document,
                 'caption' => $caption,
+                'parse_mode' => $parse_mode,
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
