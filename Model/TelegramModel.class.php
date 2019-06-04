@@ -116,7 +116,7 @@
         }
         public function sendPhoto ($chat_id, $photo, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
             if (is_array ($photo)) {
-                 return $this->sendMediaGroup ($chat_id, array_map (function ($p) use ($caption) {
+                 return $this->sendMediaGroup ($chat_id, array_map (function ($p) use ($caption, $parse_mode) {
                      return [
                          'type' => 'photo',
                          'media' => $p,
