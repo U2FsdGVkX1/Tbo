@@ -8,6 +8,7 @@
          * 
          * @var    medoo
          */
+        static private $_instance;
         protected $db;
 
         /**
@@ -17,7 +18,18 @@
          */
         public function __construct () {
             if (DBHOST != '') {
-                $this->db = new Medoo (array (
+                $this->db = self::getDB ();
+            }
+        }
+        
+        /**
+         * 返回数据库实例
+         *
+         * @return medoo
+         */
+        private function getDB () {
+            if (!self::$_instance) {
+                self::$_instance = new Medoo (array (
                     'database_type' => 'mysql',
                     'database_name' => DBNAME,
                     'server' => DBHOST,
@@ -29,5 +41,6 @@
                     )
                 ));
             }
+            return self::$_instance;
         }
     }

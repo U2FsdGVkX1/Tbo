@@ -16,7 +16,7 @@
             $GLOBALS['statistics']['error_total']++;
             $this->checkPlugin ();
             
-            $errMsg = '';
+            $errMsg = $exception->getMessage() . "\n";
             foreach ($exception->getTrace () as $i => $ep_d) {
                 $errMsg .= '在 ' . $ep_d['file'] . ' 的第 ' . $ep_d['line'] . ' 行发生了一个异常：' . "\n";
                 if (!empty ($ep_d['class'])) {
