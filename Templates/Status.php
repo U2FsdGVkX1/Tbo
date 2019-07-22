@@ -17,7 +17,7 @@
         if (empty ($status['result']['last_error_message'])) {
             $boomMessage = '';
         } else {
-            $boomMessage = $status['result']['last_error_message'];
+            $boomMessage = $status['result']['last_error_message'] . ' at ' . date('Y-m-d H:i:s', $status['result']['last_error_date']);
         }
     } else {
         $boomMessage = '建议检查 Token 是否正确';
