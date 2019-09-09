@@ -176,6 +176,13 @@
             ]);
             return $this->ret['result']['message_id'];
         }
+        public function sendAnimation($chat_id, $animation, $duration = NULL, $width = NULL, $height = NULL, $thumb = NULL, $caption = '', $parse_mode = 'HTML', $disable_notification = NULL, $reply_to_message_id = NULL, $reply_markup = array ())
+        {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendAnimation', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
         public function sendSticker ($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array ()) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
