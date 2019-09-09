@@ -181,6 +181,38 @@
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
+        public function getUserProfilePhotos($user_id, $offset = '', $limit = '') {
+            $this->ret = $this->callMethod ('getUserProfilePhotos', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function unbanChatMember($chat_id, $user_id) {
+            $this->ret = $this->callMethod ('unbanChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function restrictChatMember($chat_id, $user_id, $permissions, $until_date = NULL) {
+            $this->ret = $this->callMethod ('restrictChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function promoteChatMember($chat_id, $user_id, $can_change_info = NULL, $can_post_messages = NULL, $can_edit_messages = NULL, $can_delete_messages = NULL, $can_invite_users = NULL, $can_restrict_members = NULL, $can_pin_messages = NULL, $can_promote_members = NULL) {
+            $this->ret = $this->callMethod ('promoteChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatPermissions($chat_id, $permissions) {
+            $this->ret = $this->callMethod ('setChatPermissions', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function exportChatInviteLink($chat_id) {
+            $this->ret = $this->callMethod ('exportChatInviteLink', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatPhoto($chat_id, $photo) {
+            $this->ret = $this->callMethod ('setChatPhoto', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function deleteChatPhoto($chat_id) {
+            $this->ret = $this->callMethod ('deleteChatPhoto', get_defined_vars());
+            return $this->ret['result'];
+        }
         public function setChatTitle($chat_id, $title) {
             $this->ret = $this->callMethod ('setChatTitle', get_defined_vars());
             return $this->ret['result'];
@@ -195,6 +227,10 @@
         }
         public function unpinChatMessage($chat_id) {
             $this->ret = $this->callMethod ('unpinChatMessage', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function leaveChat($chat_id) {
+            $this->ret = $this->callMethod ('leaveChat', get_defined_vars());
             return $this->ret['result'];
         }
         public function getChat($chat_id) {
