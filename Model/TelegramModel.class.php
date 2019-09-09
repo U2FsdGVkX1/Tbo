@@ -181,6 +181,12 @@
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
+        public function sendSticker($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array (), $disable_notification = false) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendSticker', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
             return $this->ret['result']['message_id'];
         }
         public function sendGame ($chat_id, $game_name, $reply_to_message_id = NULL, $reply_markup = array ()) {
