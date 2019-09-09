@@ -181,6 +181,34 @@
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
+        public function setChatTitle($chat_id, $title) {
+            $this->ret = $this->callMethod ('setChatTitle', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatDescription($chat_id, $description = NULL) {
+            $this->ret = $this->callMethod ('setChatDescription', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function pinChatMessage($chat_id, $message_id, $disable_notification = false) {
+            $this->ret = $this->callMethod ('pinChatMessage', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function unpinChatMessage($chat_id) {
+            $this->ret = $this->callMethod ('unpinChatMessage', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function getChat($chat_id) {
+            $this->ret = $this->callMethod ('getChat', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function getChatMembersCount($chat_id) {
+            $this->ret = $this->callMethod ('getChatMembersCount', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function getChatMember($chat_id, $user_id) {
+            $this->ret = $this->callMethod ('getChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
         public function sendSticker($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array (), $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
