@@ -249,6 +249,14 @@
             $this->ret = $this->callMethod ('editMessageText', get_defined_vars());
             return $this->ret['result']['message_id'];
         }
+        public function editMessageCaption($chat_id = '', $message_id = '', $inline_message_id = NULL, $caption = NULL, $parse_mode = 'HTML', $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageCaption', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function editMessageMedia($chat_id = '', $message_id = '', $inline_message_id = NULL, $media, $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageMedia', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
         public function editMessageReplyMarkup($chat_id = '', $message_id = '', $inline_message_id = NULL, $reply_markup = '') {
             $this->ret = $this->callMethod ('editMessageReplyMarkup', get_defined_vars());
             return $this->ret['result']['message_id'];

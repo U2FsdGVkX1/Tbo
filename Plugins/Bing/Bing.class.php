@@ -56,7 +56,13 @@
                         )
                     ));
                 }
-                $this->telegram->sendPhoto ($chat['id'], $imgurl, $copyright, $message_id, $button);
+                $media = array(
+                    'type'  => 'photo',
+                    'media' => $imgurl,
+                    'caption' => $copyright
+                );
+                // $this->telegram->editMessageCaption($chat['id'], $message_id, NULL, $copyright);
+                $this->telegram->editMessageMedia($chat['id'], $message_id, NULL, json_encode($media), $button);
                 $this->telegram->answerCallback($callback_id);
             }
         }
