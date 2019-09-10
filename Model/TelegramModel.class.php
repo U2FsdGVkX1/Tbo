@@ -100,10 +100,7 @@
             return $this->ret['result']['message_id'];
         }
         public function deleteMessage ($chat_id, $message_id) {
-            $this->ret = $this->callMethod ('deleteMessage', [
-                'chat_id' => $chat_id,
-                'message_id' => $message_id
-            ]);
+            $this->ret = $this->callMethod ('deleteMessage', get_defined_vars());
             return $this->ret;
         }
         public function kickMember ($chat_id, $user_id, $until_date = NULL) {
@@ -150,30 +147,29 @@
                 return $m['message_id'];
             }, $this->ret['result']);
         }
-        public function sendAudio ($chat_id, $audio, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
+        public function sendAudio ($chat_id, $audio, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML', $duration = '', $performer = NULL, $title = NULL, $thumb = '', $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('sendAudio', [
-                'chat_id' => $chat_id,
-                'audio' => $audio,
-                'caption' => $caption,
-                'parse_mode' => $parse_mode,
-                'reply_to_message_id' => $reply_to_message_id,
-                'reply_markup' => $reply_markup
-            ]);
+            $this->ret = $this->callMethod ('sendAudio', get_defined_vars());
             return $this->ret['result']['message_id'];
         }
-        public function sendDocument ($chat_id, $document, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML') {
+        public function sendDocument ($chat_id, $document, $caption = '', $reply_to_message_id = NULL, $reply_markup = array (), $parse_mode = 'HTML', $thumb = '', $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('sendDocument', [
-                'chat_id' => $chat_id,
-                'document' => $document,
-                'caption' => $caption,
-                'parse_mode' => $parse_mode,
-                'reply_to_message_id' => $reply_to_message_id,
-                'reply_markup' => $reply_markup
-            ]);
+            $this->ret = $this->callMethod ('sendDocument', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function sendVideo($chat_id, $video, $duration = '', $width = '', $height = '', $thumb = '', $caption = NULL, $parse_mode = 'HTML', $supports_streaming = '', $disable_notification = false, $reply_to_message_id = '', $reply_markup = '') {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendVideo', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function sendAnimation($chat_id, $animation, $duration = NULL, $width = NULL, $height = NULL, $thumb = NULL, $caption = '', $parse_mode = 'HTML', $disable_notification = NULL, $reply_to_message_id = NULL, $reply_markup = array ())
+        {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendAnimation', get_defined_vars());
             return $this->ret['result']['message_id'];
         }
         public function sendSticker ($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array ()) {
@@ -185,6 +181,76 @@
                 'reply_to_message_id' => $reply_to_message_id,
                 'reply_markup' => $reply_markup
             ]);
+        public function getUserProfilePhotos($user_id, $offset = '', $limit = '') {
+            $this->ret = $this->callMethod ('getUserProfilePhotos', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function unbanChatMember($chat_id, $user_id) {
+            $this->ret = $this->callMethod ('unbanChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function restrictChatMember($chat_id, $user_id, $permissions, $until_date = NULL) {
+            $this->ret = $this->callMethod ('restrictChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function promoteChatMember($chat_id, $user_id, $can_change_info = NULL, $can_post_messages = NULL, $can_edit_messages = NULL, $can_delete_messages = NULL, $can_invite_users = NULL, $can_restrict_members = NULL, $can_pin_messages = NULL, $can_promote_members = NULL) {
+            $this->ret = $this->callMethod ('promoteChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatPermissions($chat_id, $permissions) {
+            $this->ret = $this->callMethod ('setChatPermissions', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function exportChatInviteLink($chat_id) {
+            $this->ret = $this->callMethod ('exportChatInviteLink', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatPhoto($chat_id, $photo) {
+            $this->ret = $this->callMethod ('setChatPhoto', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function deleteChatPhoto($chat_id) {
+            $this->ret = $this->callMethod ('deleteChatPhoto', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatTitle($chat_id, $title) {
+            $this->ret = $this->callMethod ('setChatTitle', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function setChatDescription($chat_id, $description = NULL) {
+            $this->ret = $this->callMethod ('setChatDescription', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function pinChatMessage($chat_id, $message_id, $disable_notification = false) {
+            $this->ret = $this->callMethod ('pinChatMessage', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function unpinChatMessage($chat_id) {
+            $this->ret = $this->callMethod ('unpinChatMessage', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function leaveChat($chat_id) {
+            $this->ret = $this->callMethod ('leaveChat', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function getChat($chat_id) {
+            $this->ret = $this->callMethod ('getChat', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function getChatMembersCount($chat_id) {
+            $this->ret = $this->callMethod ('getChatMembersCount', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function getChatMember($chat_id, $user_id) {
+            $this->ret = $this->callMethod ('getChatMember', get_defined_vars());
+            return $this->ret['result'];
+        }
+        public function sendSticker($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array (), $disable_notification = false) {
+            if (isset ($GLOBALS['statistics']['send_total']))
+                $GLOBALS['statistics']['send_total']++;
+            $this->ret = $this->callMethod ('sendSticker', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
             return $this->ret['result']['message_id'];
         }
         public function sendGame ($chat_id, $game_name, $reply_to_message_id = NULL, $reply_markup = array ()) {
@@ -210,14 +276,10 @@
             ]);
             return $this->ret['result']['message_id'];
         }
-        public function forwardMessage ($chat_id, $from_chat_id, $message_id) {
+        public function forwardMessage ($chat_id, $from_chat_id, $message_id, $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('forwardMessage', [
-                'chat_id' => $chat_id,
-                'from_chat_id' => $from_chat_id,
-                'message_id' => $message_id
-            ]);
+            $this->ret = $this->callMethod ('forwardMessage', get_defined_vars());
             return $this->ret['result']['message_id'];
         }
         public function answerCallback ($callback_id, $text = '', $show_alert = false, $url = '', $cache_time = 0) {
