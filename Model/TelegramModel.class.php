@@ -172,15 +172,12 @@
             $this->ret = $this->callMethod ('sendAnimation', get_defined_vars());
             return $this->ret['result']['message_id'];
         }
-        public function sendSticker ($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array ()) {
+        public function sendVoice($chat_id, $voice, $caption = NULL, $parse_mode = 'HTML', $duration = '', $disable_notification = false, $reply_to_message_id = '', $reply_markup = '') {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('sendSticker', [
-                'chat_id' => $chat_id,
-                'sticker' => $sticker,
-                'reply_to_message_id' => $reply_to_message_id,
-                'reply_markup' => $reply_markup
-            ]);
+            $this->ret = $this->callMethod ('sendVoice', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
         public function getUserProfilePhotos($user_id, $offset = '', $limit = '') {
             $this->ret = $this->callMethod ('getUserProfilePhotos', get_defined_vars());
             return $this->ret['result'];
@@ -265,8 +262,6 @@
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendSticker', get_defined_vars());
-            return $this->ret['result']['message_id'];
-        }
             return $this->ret['result']['message_id'];
         }
         public function sendGame ($chat_id, $game_name, $reply_to_message_id = NULL, $reply_markup = array ()) {
@@ -379,5 +374,5 @@
         }
         public function error () {
             $this->callMethod ('sendMessage');
-        } 
+        }
     }
