@@ -38,8 +38,18 @@
             if ($callback_data == 'hitokoto') {
                 $array = json_decode (file_get_contents (__DIR__ . '/hitokoto.json'), true);
                 $hitokoto = $array[array_rand ($array)]['hitokoto'];
-                
-                $this->telegram->editMessage ($chat['id'], $message_id, $hitokoto);
+
+                $button = json_encode (array (
+                    'inline_keyboard' => array (
+                        array (array (
+                            'text' => '再来一条',
+                            'callback_data' => 'hitokoto'
+                        ))
+                    )
+                ));
+                // $this->telegram->editMessage ($chat['id'], $message_id, $hitokoto, $button);
+                $this->telegram->editMessageText($chat['id'], $message_id, NULL, $hitokoto);
+                $this->telegram->editMessageReplyMarkup($chat['id'], $message_id, NULL, $button);
             }
         }
         public function new_member ($new_member, $message_id, $from, $chat, $date) {

@@ -172,15 +172,12 @@
             $this->ret = $this->callMethod ('sendAnimation', get_defined_vars());
             return $this->ret['result']['message_id'];
         }
-        public function sendSticker ($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array ()) {
+        public function sendVoice($chat_id, $voice, $caption = NULL, $parse_mode = 'HTML', $duration = '', $disable_notification = false, $reply_to_message_id = '', $reply_markup = '') {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
-            $this->ret = $this->callMethod ('sendSticker', [
-                'chat_id' => $chat_id,
-                'sticker' => $sticker,
-                'reply_to_message_id' => $reply_to_message_id,
-                'reply_markup' => $reply_markup
-            ]);
+            $this->ret = $this->callMethod ('sendVoice', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
         public function getUserProfilePhotos($user_id, $offset = '', $limit = '') {
             $this->ret = $this->callMethod ('getUserProfilePhotos', get_defined_vars());
             return $this->ret['result'];
@@ -245,12 +242,26 @@
             $this->ret = $this->callMethod ('getChatMember', get_defined_vars());
             return $this->ret['result'];
         }
+        public function editMessageText($chat_id = '', $message_id = '', $inline_message_id = NULL, $text, $parse_mode = 'HTML', $disable_web_page_preview = '', $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageText', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function editMessageCaption($chat_id = '', $message_id = '', $inline_message_id = NULL, $caption = NULL, $parse_mode = 'HTML', $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageCaption', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function editMessageMedia($chat_id = '', $message_id = '', $inline_message_id = NULL, $media, $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageMedia', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function editMessageReplyMarkup($chat_id = '', $message_id = '', $inline_message_id = NULL, $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageReplyMarkup', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
         public function sendSticker($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array (), $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
             $this->ret = $this->callMethod ('sendSticker', get_defined_vars());
-            return $this->ret['result']['message_id'];
-        }
             return $this->ret['result']['message_id'];
         }
         public function sendGame ($chat_id, $game_name, $reply_to_message_id = NULL, $reply_markup = array ()) {
@@ -363,5 +374,5 @@
         }
         public function error () {
             $this->callMethod ('sendMessage');
-        } 
+        }
     }
