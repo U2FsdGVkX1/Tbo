@@ -245,6 +245,14 @@
             $this->ret = $this->callMethod ('getChatMember', get_defined_vars());
             return $this->ret['result'];
         }
+        public function editMessageText($chat_id = '', $message_id = '', $inline_message_id = NULL, $text, $parse_mode = 'HTML', $disable_web_page_preview = '', $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageText', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
+        public function editMessageReplyMarkup($chat_id = '', $message_id = '', $inline_message_id = NULL, $reply_markup = '') {
+            $this->ret = $this->callMethod ('editMessageReplyMarkup', get_defined_vars());
+            return $this->ret['result']['message_id'];
+        }
         public function sendSticker($chat_id, $sticker, $reply_to_message_id = NULL, $reply_markup = array (), $disable_notification = false) {
             if (isset ($GLOBALS['statistics']['send_total']))
                 $GLOBALS['statistics']['send_total']++;
