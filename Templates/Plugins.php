@@ -210,13 +210,11 @@
                 "pcn": pcn
             },
             success: function(data, textStatus, jqXHR){
-                if(data.code == '0'){
-                    $("div#pluginSettingsContents").html(data.contents);
-                }else{
-                    $("div#pluginSettingsContents").html(data.msg);
+                if(!data) {
+                    data = "无设置";
                 }
-            },
-            dataType: "json"
+                $("div#pluginSettingsContents").html(data);
+            }
         });
     });
 </script>
