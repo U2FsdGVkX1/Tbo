@@ -6,40 +6,141 @@
 @Description 发送 /backup 开始备份
 @Author myluoluo
 @AuthorEmail admin@myluoluo.com
-@Version 1.0
+@Version 1.2
 -----END INFO-----
 */
 
 class Backup extends Base
 {
+    private $serverUrl = '';
+    public function __construct() {
+        $this->serverUrl = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'];
+
+        parent::__construct();
+    }
+
+    private function checkRule() {
+        $chat_id = (int)$_POST["chat_id"];
+        $message_id = (int)$_POST["message_id"];
+
+        if ($this->telegram->getMaster() == '') {
+            $this->telegram->sendMessage($chat_id, "未定义『主人 ID』", $message_id);
+            return;
+        }
+
+        if ($chat_id != $this->telegram->getMaster()) {
+            $this->telegram->sendMessage($chat_id, "你没有权限进行该操作！", $message_id);
+            return;
+        }
+
+        // 避免数据量过大，导出不全的情况出现。
+        ignore_user_abort(true);
+        if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+            @set_time_limit(0);
+        }
+        @ini_set("max_execution_time", '3600');
+        @ini_set('max_input_time', '3600');
+    }
+
+    /*
+     * 异步执行备份任务
+     */
+    public function backup_callback() {
+        $this->checkRule();
+
+        $chat_id = (int)$_POST["chat_id"];
+        $message_id = (int)$_POST["message_id"];
+
+        $msg1 = $this->telegram->sendMessage($chat_id, '备份已经开始，请稍等', $message_id);
+        $backupFile = $this->EXPORT_TABLES(__DIR__ . '/');
+
+        $this->telegram->deleteMessage($chat_id, $msg1);
+
+        $this->execUrl("{$this->serverUrl}/index.php/plugins/callback", 'POST', [
+            'pcn' => 'Backup',
+            'method' => 'send_backup_callback',
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'backupFile' => $backupFile,
+        ]);
+    }
+
+    /*
+     * 异步执行文件发送任务
+     */
+    public function send_backup_callback() {
+        $this->checkRule();
+
+        $chat_id = (int)$_POST["chat_id"];
+        $message_id = (int)$_POST["message_id"];
+        $backupFile = (string)$_POST["backupFile"];
+
+        if(!file_exists($backupFile)) {
+            $this->telegram->sendMessage($chat_id, "备份文件不存在，请检查是否有权限写入！", $message_id);
+            return;
+        }
+
+        $msg2 = $this->telegram->sendMessage($chat_id, '备份完成，正在发送文件', $message_id);
+        $fileCurl = new CURLFile($backupFile);
+        $this->telegram->sendDocument($chat_id, $fileCurl, '#Backup ' . date('Y-m-d_H-i-s'), $message_id);
+
+        $this->telegram->deleteMessage($chat_id, $msg2);
+        unlink($backupFile);
+    }
+
     public function command($command, $param, $message_id, $from, $chat, $date)
     {
         if ($command == '/backup') {
-            if ($this->telegram->getMaster() == '') {
-                $this->telegram->sendMessage($chat['id'], "未定义『主人 ID』", $message_id);
-                return;
-            }
-            if ($chat['id'] != $this->telegram->getMaster()) {
-                $this->telegram->sendMessage($chat['id'], "你没有权限进行该操作！", $message_id);
-                return;
-            }
+            $this->execUrl("{$this->serverUrl}/index.php/plugins/callback", 'POST', [
+                'pcn' => 'Backup',
+                'method' => 'backup_callback',
+                'chat_id' => $chat["id"],
+                'message_id' => $message_id
+            ]);
+        }
+    }
 
-            // 避免数据量过大，导出不全的情况出现。
-            ignore_user_abort(true);
-            if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-                @set_time_limit(0);
-            }
-            @ini_set("max_execution_time", '3600');
-            @ini_set('max_input_time', '3600');
+    /**
+     * 发起http异步请求
+     * https://segmentfault.com/q/1010000003990460?_ea=450849
+     * @param string $url http地址
+     * @param string $method 请求方式
+     * @param array $params 参数
+     * @param string $ip 支持host配置
+     * @param int $connectTimeout 连接超时，单位为秒
+     * @throws Exception
+     */
+    function execUrl($url, $method = 'GET', $params = array(), $ip = null, $connectTimeout = 1)
+    {
+        $urlInfo = parse_url($url);
 
-            $msg1 = $this->telegram->sendMessage($chat['id'], '备份马上开始，请稍等', $message_id);
-            $backupFile = $this->EXPORT_TABLES(__DIR__ . '/');
-            $msg2 = $this->telegram->sendMessage($chat['id'], '备份完成，正在发送文件', $message_id);
-            $fileCurl = new CURLFile($backupFile);
-            $this->telegram->sendDocument($chat['id'], $fileCurl, '#Backup ' . date('Y-m-d_H-i-s'), $message_id);
-            $this->telegram->deleteMessage($chat['id'], $msg1);
-            $this->telegram->deleteMessage($chat['id'], $msg2);
-            unlink($backupFile);
+        $host = $urlInfo['host'];
+        $port = isset($urlInfo['port']) ? $urlInfo['port'] : 80;
+        $path = isset($urlInfo['path']) ? $urlInfo['path'] : '/';
+        !$ip && $ip = $host;
+
+        $method = strtoupper(trim($method)) !== "POST" ? "GET" : "POST";
+        $params = http_build_query($params);
+
+        if ($method === "GET" && strlen($params) > 0) {
+            $path .= '?' . $params;
+        }
+
+        $fp = fsockopen($ip, $port, $errorCode, $errorInfo, $connectTimeout);
+
+        if ($fp === false) {
+            throw new Exception('Connect failed , error code: ' . $errorCode . ', error info: ' . $errorInfo);
+        } else {
+            $http = "$method $path HTTP/1.1\r\n";
+            $http .= "Host: $host\r\n";
+            $http .= "Content-type: application/x-www-form-urlencoded\r\n";
+            $method === "POST" && $http .= "Content-Length: " . strlen($params) . "\r\n";
+            $http .= "\r\n";
+            $method === "POST" && $http .= $params . "\r\n\r\n";
+
+            if (fwrite($fp, $http) === false || fclose($fp) === false) {
+                throw new Exception('Request failed.');
+            }
         }
     }
 
