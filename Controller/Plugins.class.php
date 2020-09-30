@@ -146,15 +146,8 @@
             /** 初始化 */
             $pluginModel = new PluginModel;
             
-            /** 获取设置 */
+            /** 调用设置 */
             $pluginSettingsContents = $pluginModel->settings ($_POST['pcn']);
-            
-            /** 返回 */
-            if ($pluginSettingsContents !== NULL) {
-                exit (json_encode (array ('code' => 0, 'contents' => $pluginSettingsContents)));
-            } else {
-                exit (json_encode (array ('code' => -1, 'msg' => '无设置')));
-            }
         }
         function callback () {
             /** 检查 */

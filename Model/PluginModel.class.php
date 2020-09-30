@@ -113,14 +113,7 @@
             $plugin = new $pcn ('');
             if (method_exists ($plugin, 'settings')) {
                 $plugin->settings ();
-                $contents = ob_get_contents ();
-                ob_clean ();
-            } else {
-                $contents = NULL;
             }
-            
-            /** 返回 */
-            return $contents;
         }
         function callMethod ($pcn, $method)
         {
