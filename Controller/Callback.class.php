@@ -119,7 +119,7 @@
                         $data['message']['chat']['reply_to_message'] = $data['message']['reply_to_message'];
                     }
                                         
-                                        /** 艾特处理 */
+                     /** 艾特处理 */
                     if(isset ($data['message']['entities'])) {
                         foreach ($data['message']['entities'] as $entities){
                             if($entities['type'] == 'text_mention'){
