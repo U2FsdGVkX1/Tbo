@@ -3,7 +3,7 @@
 <?php
     /** 初始化 */
     $optionModel = new OptionModel;
-    //$telegramModel = new TelegramModel;
+    $telegramModel = new TelegramModel;
     
     /** 统计图 */
     $message_total = $optionModel->getvalue ('message_total');
