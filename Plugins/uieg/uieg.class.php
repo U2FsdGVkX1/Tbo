@@ -21,14 +21,14 @@ class uieg extends Base {
     /** 保存前端设置 **/
     public function saveSettings () {
         //强行演示...
-        exit (json_encode (array ('code' => 0, 'msg' => '喵:' . http_build_query($_POST))));
+       return '喵:' . http_build_query($_POST);
         
         foreach($_POST as $k => $v){
             if(!in_array($k,['pcn','method'])){
                 $this->option->iou($k,$v);
             }
         }
-        exit (json_encode (array ('code' => 0, 'msg' => '保存成功')));
+        return;
     }
 
 }

@@ -69,11 +69,15 @@ layui.use(['layer','form'], function(){
   var $ = layui.jquery, form = layui.form;
   form.render();//渲染表单
   form.on('submit(saveSettings)', function(obj){
-    $.post("plugins/callback",'pcn=uieg&method=saveSettings&' + $('form').serialize(),
-    function(result,status){
+    layer.msg('正在保存');
+    var callbackUrl = 'pcn=__PCN__&method=saveSettings&' + $('form').serialize();
+    $.post("plugins/callback",callbackUrl, function(result,status){//__PCN__ 会自动替换为插件对应的PCN
       var result = JSON.parse(result);
-      layer.msg(result.code === 0 ? result.msg : layer.msg('保存失败'));
-      
+      if(result.code === 0){
+        layer.msg('保存成功', {icon: 1});
+      }else{
+        layer.msg(result.msg, {icon: 2});
+      }
     });
   });
 });
