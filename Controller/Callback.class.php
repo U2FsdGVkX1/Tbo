@@ -118,25 +118,25 @@
                     if(isset ($data['message']['reply_to_message'])) {
                         $data['message']['chat']['reply_to_message'] = $data['message']['reply_to_message'];
                     }
-										
-										/** 艾特处理 */
+                                        
+                                        /** 艾特处理 */
                     if(isset ($data['message']['entities'])) {
-												foreach ($data['message']['entities'] as $entities){
-														if($entities['type'] == 'text_mention'){
-																$mentionUserId =  $entities['user']['id'];
-																$mentionUserName = $entities['user']['first_name'];
-														}
-														if($entities['type'] == 'mention'){
-																$tmp = mb_substr($data['message']['text'], $entities['offset'] + 1, $entities['length'],"utf-8");
-																$mentionUserId = $tmp;
-																$mentionUserName = $tmp;
-														}
-														$data['message']['at_array'][] = ['id' => $mentionUserId, 'name' => $mentionUserName];
-														$data['message']['at_ids'][] = $mentionUserId;
-												}
-												
+                        foreach ($data['message']['entities'] as $entities){
+                            if($entities['type'] == 'text_mention'){
+                                $mentionUserId =  $entities['user']['id'];
+                                $mentionUserName = $entities['user']['first_name'];
+                            }
+                            if($entities['type'] == 'mention'){
+                                $tmp = mb_substr($data['message']['text'], $entities['offset'] + 1, $entities['length'],"utf-8");
+                                $mentionUserId = $tmp;
+                                $mentionUserName = $tmp;
+                            }
+                            $data['message']['at_array'][] = ['id' => $mentionUserId, 'name' => $mentionUserName];
+                            $data['message']['at_ids'][] = $mentionUserId;
+                        }
+                                                
                     }
-										
+                                        
                     if ($data['message']['text'][0] == '/') {
                         $data['message']['text'] = str_replace ("\n", " ", $data['message']['text']);
                         $messageExplode = explode (' ', $data['message']['text']);
@@ -163,41 +163,41 @@
                             $param[1] = array_slice ($messageExplode, 1);
                         }
                     } else {
-												if(isset ($data['message']) && !isset ($data['message']['reply_to_message'])){
-														$func = 'message';
-														$param = [
-																$data['message']['text'],
-																$data['message']['message_id'],
-																$data['message']['from'],
-																$data['message']['chat'],
-																$data['message']['date'],
-														];
-														$initParam = [
-																$func,
-																$data['message']['from'],
-																$data['message']['chat'],
-																$data['message']['date'],
-														];
-												}else{
-														$func = 'reply_message';
-														$param = [
-																$data['message']['text'],
-																$data['message']['message_id'],
-																$data['message']['date'],
-																$data['message']['reply_to_message']['text'],
-																$data['message']['reply_to_message']['message_id'],
-																$data['message']['reply_to_message']['date'],
-																$data['message']['from'],
-																$data['message']['chat'],
-																$data['message']['reply_to_message']['from']['is_bot'],
-														];
-														$initParam = [
-																$func,
-																$data['message']['from'],
-																$data['message']['chat'],
-																$data['message']['date'],
-														];
-												}
+                        if(isset ($data['message']) && !isset ($data['message']['reply_to_message'])){
+                            $func = 'message';
+                            $param = [
+                                $data['message']['text'],
+                                $data['message']['message_id'],
+                                $data['message']['from'],
+                                $data['message']['chat'],
+                                $data['message']['date'],
+                            ];
+                            $initParam = [
+                                $func,
+                                $data['message']['from'],
+                                $data['message']['chat'],
+                                $data['message']['date'],
+                            ];
+                        }else{
+                            $func = 'reply_message';
+                            $param = [
+                                $data['message']['text'],
+                                $data['message']['message_id'],
+                                $data['message']['date'],
+                                $data['message']['reply_to_message']['text'],
+                                $data['message']['reply_to_message']['message_id'],
+                                $data['message']['reply_to_message']['date'],
+                                $data['message']['from'],
+                                $data['message']['chat'],
+                                $data['message']['reply_to_message']['from']['is_bot'],
+                            ];
+                            $initParam = [
+                                $func,
+                                $data['message']['from'],
+                                $data['message']['chat'],
+                                $data['message']['date'],
+                            ];
+                        }
                     }
                 } else if (isset ($data['message']['new_chat_title'])) {
                     $func = 'new_chat_title';
