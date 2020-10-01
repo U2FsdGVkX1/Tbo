@@ -40,7 +40,7 @@
     ,search = router.search;
 
     form.render();
-<?php if (!FASTLOGIN) { ?>
+    <?php if (!FASTLOGIN) { ?>
     //提交
     form.on('submit(LAY-user-login-submit)', function(obj){
       layer.msg('正在登入');
@@ -60,7 +60,7 @@
         },
       });
     });
-<?php } else { ?>
+    <?php } else { ?>
     $.ajax({
         type: "POST",
         url: "<?php echo APP_URL ?>/index.php/login/fastLogin",
@@ -88,8 +88,7 @@
           }
         }
     });
-
-<?php } ?>
+    <?php } ?>
   });
   </script>
 <?php require_once 'Footer.php' ?>

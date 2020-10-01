@@ -7,7 +7,6 @@
           <div class="layui-card-body" pad15>
             
             <div class="layui-form" wid100 lay-filter="">
-<!--              <fieldset class="layui-elem-field layui-field-title"><legend style="color:#FF6633">Telegram Bot 设定</legend></fieldset> -->
               <div class="layui-form-item">
                 <label class="layui-form-label">Bot Name</label>
                 <div class="layui-input-inline" style="width: 45%;">
@@ -138,8 +137,6 @@
       dataType: "json"
     });
   });
-  
-  
   </script>
 
 <?php require_once 'Footer.php' ?>

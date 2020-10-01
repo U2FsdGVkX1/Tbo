@@ -102,8 +102,7 @@
       <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>
   </div>
-<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
- -->
+
   <script src="../Templates/assets/layui/layui.js"></script>
   <script>
   layui.config({
