@@ -242,7 +242,7 @@ $pageTitle = '插件列表'; require_once 'Header.php';
     var data = obj.data;
     var event = obj.event;
     if(event == 'remove'){
-    layer.confirm('确定该插件吗？', function(index) {
+    layer.confirm('确定删除该插件全部文件吗？', function(index) {
       sendPost('plugins/' + event,{pcn:data.pcn});
     });
     }else if(event == 'edit'){
@@ -259,27 +259,27 @@ $pageTitle = '插件列表'; require_once 'Header.php';
 
 
     }else if(event == 'settings'){
-    $.ajax({type: "POST",url: 'plugins/' + event,data:{pcn:data.pcn},
-      success: function(result, textStatus, jqXHR){
-      if(textStatus == 'success'){
-        if(!result) return layer.msg('该插件无设置界面', {icon: 2});
-        var index = layer.open({
-        type: 1
-        ,title: data.PluginName + ' 设置'
-        ,content: result
-        ,maxmin: true
-        ,area: data.UIarea.split(',')
-        ,btn: ['确定', '取消']
-        ,yes: function(index, layero){
-          var submit = layero.find("#saveSettings");
-          submit.click();
+      $.ajax({type: "POST",url: 'plugins/' + event,data:{pcn:data.pcn},
+        success: function(result, textStatus, jqXHR){
+        if(textStatus == 'success'){
+          if(!result) return layer.msg('该插件无设置界面', {icon: 2});
+          var index = layer.open({
+          type: 1
+          ,title: data.PluginName + ' 设置'
+          ,content: result.replace('__PCN__',data.pcn)
+          ,maxmin: true
+          ,area: data.UIarea.split(',')
+          ,btn: ['保存', '取消']
+          ,yes: function(index, layero){
+            var submit = layero.find("#saveSettings");
+            submit.click();
+          }
+          });
+        }else{
+          layer.msg('接口响应:' + textStatus, {icon: 2});
         }
-        });
-      }else{
-        layer.msg('接口响应:' + textStatus, {icon: 2});
-      }
-      },
-    });
+        },
+      });
 
     }else{
     sendPost('plugins/' + event,{pcn:data.pcn});
@@ -373,12 +373,9 @@ $pageTitle = '插件列表'; require_once 'Header.php';
           layer.msg('接口响应:' + textStatus, {icon: 2});
         }
       });
-
-
-      console.log(__PluginURL__)
       }
     });
-    },
+  },
 
 
   }
