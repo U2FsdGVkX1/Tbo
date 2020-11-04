@@ -25,12 +25,12 @@ class Backup extends Base
 
         if ($this->telegram->getMaster() == '') {
             $this->telegram->sendMessage($chat_id, "未定义『主人 ID』", $message_id);
-            return;
+            die();
         }
 
         if ($chat_id != $this->telegram->getMaster()) {
             $this->telegram->sendMessage($chat_id, "你没有权限进行该操作！", $message_id);
-            return;
+            die();
         }
 
         // 避免数据量过大，导出不全的情况出现。
