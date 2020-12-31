@@ -1,71 +1,65 @@
 <?php
-    $code = file_get_contents (APP_PATH . '/Plugins/' . $this->param[0] . '/' . $this->param[0] . '.class.php');
-    $code = htmlspecialchars ($code);
+if($this->param[1] == 'settings.html'){
+  $file = $this->param[1];
+  $mode = 'html';
+}else{
+  $file = $this->param[0] . $this->param[1];
+  $mode = 'php';
+}
+$file = APP_PATH . '/Plugins/' . $this->param[0] . '/' . $file;
+$code = (file_exists($file)) ? file_get_contents ($file) : '该插件木有 settings.html 文件' . PHP_EOL . '修改本文件将新建 settings.html';
+$code = htmlspecialchars ($code);
 ?>
-<?php
-    $pjax = isset ($_SERVER['HTTP_X_PJAX']);
-?>
-<?php if ($pjax == false) require_once 'Header1.php' ?>
-<title>编辑插件</title>
-<?php if ($pjax == false) require_once 'Header2.php' ?>
-<?php if ($pjax == false) require_once 'Sidebar.php' ?>
-<?php if ($pjax == false) echo '<div class="container" id="container">' ?>
-
-<div class="row">
-    <div class="col-xs-12" style="margin-top: 10px">
-        <div id="code"><?php echo $code ?></div>
-    </div>
-    <div class="col-xs-12" style="margin-top: 760px">
-        <button id="save" style="float: right" type="button" class="btn btn-success">编辑</button>
-    </div>
-</div>
-<style>
+  <div id="code"><?php echo $code ?></div>
+  <input style="display:none" lay-submit lay-submit lay-filter="save_pcn" id="save_pcn" value="编辑">
+  <style>
     #code {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 750px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
     }
-</style>
-<script src="<?php echo $this->loadSource ("assets/ace/ace.js") ?>" type="text/javascript" charset="utf-8"></script>
-<script>
-    var timer = setInterval(function(){
-        if(typeof(ace) != "undefined"){
-            clearInterval(timer);
-            
-            var editor = ace.edit("code");
-            editor.getSession().setMode("ace/mode/php");
-            editor.setTheme("ace/theme/clouds");
-            editor.setFontSize(16);
-            editor.setShowPrintMargin(false);
-            
-            $("button#save").click(function(){
-                buttonThis = $(this);
-                $(buttonThis).attr("disabled", "disabled");
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo APP_URL ?>/index.php/PluginMain/ajaxSave",
-                    data: {
-                        "pcn": "<?php echo $this->param[0] ?>",
-                        "code": editor.getValue()
-                    },
-                    success: function(data, textStatus, jqXHR){
-                        if(data.code == '0'){
-                            textOld = $(buttonThis).text();
-                            $(buttonThis).text("已保存");
-                            setTimeout(function(){
-                                $(buttonThis).text(textOld);
-                                $(buttonThis).removeAttr("disabled");
-                            }, 2000);
-                        }
-                    },
-                    dataType: "json"
-                });
-            })
-        }
-    }, 500);
-</script>
+  </style>
+  <script src="/Templates/assets/layui/layui.js"></script>
+  <script src="/Templates/assets/ace/ace.js"></script>
+  <script>
+  var timer = setInterval(function(){
+    if(typeof(ace) != "undefined"){
+      clearInterval(timer);
 
-<?php if ($pjax == false) echo '</div>' ?>
-<?php if ($pjax == false) require_once 'Footer.php' ?>
+      layui.use(['layer','form'], function() {
+        var $ = layui.jquery, form = layui.form;
+        var editor = ace.edit("code");
+        editor.getSession().setMode("ace/mode/<?php echo $mode ?>");
+        editor.setTheme("ace/theme/monokai");
+        editor.setFontSize(16);
+        editor.setShowPrintMargin(false);
+        
+        form.on('submit(save_pcn)', function(data){
+          var index = parent.layer.getFrameIndex(window.name);
+          parent.layer.msg('更新中...');
+          $.ajax({
+            type: "POST",
+            url: "<?php echo APP_URL ?>/index.php/PluginMain/ajaxSave",
+            dataType: "json",
+            data: {
+              "pcn": "<?php echo $this->param[0] ?>",
+              "file": "<?php echo $this->param[1] ?>",
+              "code": editor.getValue()
+            },
+            success: function(data, textStatus, jqXHR){
+              if(data.code == '0'){
+                parent.layer.msg('保存成功', {icon: 1});
+                parent.layui.table.reload('plugins_table');
+                parent.layer.close(index);
+              }
+            }
+          });
+        });
+      })
+    }
+  }, 500);
+  </script>
+
+

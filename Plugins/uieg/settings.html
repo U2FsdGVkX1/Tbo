@@ -1,0 +1,84 @@
+<div class="layui-card">
+  <div class="layui-card-body">
+  <blockquote class="layui-elem-quote">基于layui,你可以实现任何你想要的界面,喵`</blockquote>
+    <form class="layui-form" action="" lay-filter="component-form-element">
+      <div class="layui-row layui-col-space10 layui-form-item">
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">员工姓名：</label>
+          <div class="layui-input-block">
+            <input type="text" name="fullname" lay-verify="" placeholder="" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-col-lg6">
+          <label class="layui-form-label">技术工种：</label>
+          <div class="layui-input-block">
+            <select name="type" lay-verify="" lay-filter="aihao">
+              <option value=""></option>
+              <option value="0">前端工程师</option>
+              <option value="1">Node.js工程师</option>
+              <option value="2">PHP工程师</option>
+              <option value="3">Java工程师</option>
+              <option value="4">运维</option>
+              <option value="4">视觉设计师</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">兴趣爱好：</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="write" title="写作">
+          <input type="checkbox" name="read" title="阅读">
+          <input type="checkbox" name="code" title="代码" checked>
+          <input type="checkbox" name="dreaming" title="做梦">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">是否婚姻：</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="marriage" lay-skin="switch" lay-text="是|否">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">所属职称：</label>
+        <div class="layui-input-block">
+          <input type="radio" name="role" value="" title="经理">
+          <input type="radio" name="role" value="" title="主管">
+          <input type="radio" name="role" value="" title="码农" checked>
+          <input type="radio" name="role" value="" title="端水">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">其它信息：</label>
+        <div class="layui-input-block">
+          <textarea name="other" placeholder="" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-form-item layui-hide">
+          <input type="button" lay-submit lay-submit lay-filter="saveSettings" id="saveSettings" value="保存">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+layui.use(['layer','form'], function(){
+  var $ = layui.jquery, form = layui.form;
+  form.render();//渲染表单
+  form.on('submit(saveSettings)', function(obj){
+    layer.msg('正在保存');
+    var callbackUrl = 'pcn=__PCN__&method=saveSettings&' + $('form').serialize();
+    $.post("plugins/callback",callbackUrl, function(result,status){//__PCN__ 会自动替换为插件对应的PCN
+      var result = JSON.parse(result);
+      if(result.code === 0){
+        layer.msg('保存成功', {icon: 1});
+      }else{
+        layer.msg(result.msg, {icon: 2});
+      }
+    });
+  });
+});
+</script>

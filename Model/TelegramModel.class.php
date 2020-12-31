@@ -366,8 +366,14 @@
             }
             return $ret;
         }
+        public function atById ($userid, $username) {
+            return '<a href="tg://user?id='.$userid.'">@'.$username.'</a>';
+        }
         public function getMaster () {
             return MASTER;
+        }
+        public function getBotName () {
+            return BOTNAME;
         }
         public function getReturn () {
             return $this->ret;

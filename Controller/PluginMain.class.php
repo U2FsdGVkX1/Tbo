@@ -20,7 +20,8 @@
             }
             
             /** 写入 */
-            file_put_contents (APP_PATH . '/Plugins/' . $_POST['pcn'] . '/' . $_POST['pcn'] . '.class.php', $_POST['code']);
+            $file = ($_POST['file'] == 'settings.html') ? $_POST['file'] : $_POST['pcn'] . $_POST['file'];
+            file_put_contents (APP_PATH . '/Plugins/' . $_POST['pcn'] . '/' . $file, $_POST['code']);
             
             /** 返回 */
             exit (json_encode (array ('code' => 0)));
