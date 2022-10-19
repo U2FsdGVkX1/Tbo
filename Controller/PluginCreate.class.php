@@ -16,9 +16,14 @@
                 exit (json_encode (array ('code' => -9999, 'msg' => '参数为空')));
             }
             
+            if (file_exists(APP_PATH . '/Plugins/' . $_POST['pcn'])) {
+              exit (json_encode (array ('code' => -9999, 'msg' => '插件PCN已存在')));
+            }
+            
             /** 写入 */
             mkdir (APP_PATH . '/Plugins/' . $_POST['pcn']);
             file_put_contents (APP_PATH . '/Plugins/' . $_POST['pcn'] . '/' . $_POST['pcn'] . '.class.php', $_POST['code']);
+            file_put_contents (APP_PATH . '/Plugins/' . $_POST['pcn'] . '/' . 'settings.html', '');
             
             /** 返回 */
             exit (json_encode (array ('code' => 0)));
